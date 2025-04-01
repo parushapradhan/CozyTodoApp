@@ -2,10 +2,26 @@
 <html>
     <head>
         <title>Cozy game</title>
+        <script src="//cdn.jsdelivr.net/npm/phaser@3.86.0/dist/phaser.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/phaser@3.86.0/dist/phaser.min.js"></script> 
         <link rel="/assets/css/main.css" type="stylesheet"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head> 
-    <body>
+    <body style="background-color: #5f1c34;">
+
+        <!--Navbar-->
+        <!-- <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+            <div class="container-fluid d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center">
+                <span class="time-info me-3">Spring 3</span>
+                <span class="time-info me-3">Wed</span>
+                <span class="time-info">8:30 AM</span>
+              </div>
+              <div class="gold-info">
+                1500 G
+              </div>
+            </div>
+          </nav> -->
         <!-- MUSIC SETTINGS
         Add a slider to adjust the music. The 
         -->
@@ -35,12 +51,18 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fire" viewBox="0 0 16 16">
                 <path d="M8 16c3.314 0 6-2 6-5.5 0-1.5-.5-4-2.5-6 .25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16m0-1c-1.657 0-3-1-3-2.75 0-.75.25-2 1.25-3C6.125 10 7 10.5 7 10.5c-.375-1.25.5-3.25 2-3.5-.179 1-.25 2 1 3 .625.5 1 1.364 1 2.25C11 14 9.657 15 8 15"/>
               </svg>
+
          <!--TODO List-->
 
-         <!-- Scene -->
-          
+         <!-- Room Scene -->
+         <!-- <div class="container text-center">
+            <canvas id="gameCanvas" class="mx-auto d-block"></canvas>
+          </div> -->
+         <!-- <canvas id="gameCanvas"></canvas> -->
+        <!-- <script src="game.js" defer></script> -->
+          <img src="/assets/images/226539456-1727243746.webp" alt="Room" class="img-fluid mx-auto d-block" style="max-width: 90%; height: auto; margin-top: 50px;">
           <!--Music player -->
-
+          
         <script src="/assets/js/howler.min.js"></script>
         <script>
 
@@ -118,6 +140,12 @@
             }
 
         </script>
+
+
+
+<!--Game engine-->
+
+   
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </body>
-</html>T
+</html>

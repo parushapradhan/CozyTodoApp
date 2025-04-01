@@ -1,0 +1,60 @@
+:root{
+    --peach: #fae4da;
+    --pink: #f6aebf;
+    --dark-pink: #cb446c;
+    --darker-pink: #af305b;
+    --warm-white: #fefefe;
+    --pink-white: #f8ecf7;
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+body {
+  background-color: #f6f1e8;
+  font-family: 'Press Start 2P', cursive;
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+  color: #4b3b2b;
+}
+
+.notebook {
+  width: 400px;
+  background: #fffdf6;
+  border: 4px double #d4c1a3;
+  border-radius: 12px;
+  box-shadow: 5px 5px 10px rgba(60, 50, 30, 0.2);
+  padding: 1.5rem;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.tab {
+  background: #e8d8c3;
+  border: 2px solid #b89c7a;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background 0.2s ease;
+}
+
+.tab:hover {
+  background: #d7c2a8;
+}
+
+.tab.selected {
+  background: #c9b08c;
+  border-color: #a18464;
+}
+
+.content {
+  background: #fffdf6;
+  padding: 1rem;
+  border-top: 2px dashed #d4c1a3;
+}
