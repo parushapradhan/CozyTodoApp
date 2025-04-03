@@ -1,0 +1,124 @@
+:root {
+  --peach: #fae4da;
+  --pink: #f6aebf;
+  --dark-pink: #cb446c;
+  --darker-pink: #af305b;
+  --warm-white: #fefefe;
+  --pink-white: #f8ecf7;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+
+body {
+  background-color: #f6f1e8;
+  font-family: "Press Start 2P", cursive;
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+  color: #4b3b2b;
+}
+
+.notebook {
+  width: 400px;
+  background: #fffdf6;
+  border: 4px double #d4c1a3;
+  border-radius: 12px;
+  box-shadow: 5px 5px 10px rgba(60, 50, 30, 0.2);
+  padding: 1.5rem;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.tab {
+  background: #e8d8c3;
+  border: 2px solid #b89c7a;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background 0.2s ease;
+}
+
+.tab:hover {
+  background: #d7c2a8;
+}
+
+.tab.selected {
+  background: #c9b08c;
+  border-color: #a18464;
+}
+
+.content {
+  background: #fffdf6;
+  padding: 1rem;
+  border-top: 2px dashed #d4c1a3;
+} /* 🧭 Settings Menu Layout */
+#settings-menu {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 1rem 2rem;
+  margin: 0 auto;
+  max-width: 900px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 🎵 Music + Clock Shared Styles */
+#music-player,
+#clock {
+  background-color: var(--pink-white);
+  border: 2px dashed var(--pink);
+  border-radius: 10px;
+  padding: 1rem;
+  font-family: "VT323", monospace;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#music-player h5,
+#clock h5 {
+  margin-bottom: 0.5rem;
+  font-size: 1.4rem;
+  color: var(--darker-pink);
+}
+
+/* 🎧 Track List */
+#track-list {
+  list-style: disc;
+  padding-left: 1.2rem;
+  margin-top: 0.5rem;
+  color: var(--dark-pink);
+}
+
+#track-list li:hover {
+  text-decoration: underline;
+}
+
+/* 🎛 Buttons */
+#music-player button,
+#clock button {
+  margin-top: 0.5rem;
+  padding: 0.4rem;
+  width: 100%;
+  font-size: 1.1rem;
+  background-color: var(--dark-pink);
+  color: var(--warm-white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#music-player button:hover,
+#clock button:hover {
+  background-color: var(--darker-pink);
+}
+
+#clock span {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
