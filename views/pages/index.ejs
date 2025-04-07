@@ -129,6 +129,72 @@
     </svg>
 
     <!--TODO List-->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("todo-form");
+        const input = document.getElementById("todo-input");
+        const list = document.getElementById("todo-list");
+    
+        let todos = JSON.parse(localStorage.getItem("cozyTodos")) || [];
+    
+        const renderTodos = () => {
+          list.innerHTML = "";
+          todos.forEach((todo, index) => {
+            const li = document.createElement("li");
+            li.className = "todo-item";
+    
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.checked = todo.done;
+            checkbox.onchange = () => toggleDone(index);
+    
+            const span = document.createElement("span");
+            span.textContent = todo.text;
+            if (todo.done) span.classList.add("done");
+    
+            const delBtn = document.createElement("button");
+            delBtn.textContent = "✖";
+            delBtn.className = "delete-btn";
+            delBtn.onclick = () => deleteTodo(index);
+    
+            li.appendChild(checkbox);
+            li.appendChild(span);
+            li.appendChild(delBtn);
+            list.appendChild(li);
+          });
+        };
+    
+        const toggleDone = (index) => {
+          todos[index].done = !todos[index].done;
+          saveTodos();
+        };
+    
+        const deleteTodo = (index) => {
+          todos.splice(index, 1);
+          saveTodos();
+        };
+    
+        const saveTodos = () => {
+          localStorage.setItem("cozyTodos", JSON.stringify(todos));
+          renderTodos();
+        };
+    
+        form.onsubmit = (e) => {
+          e.preventDefault();
+          const text = input.value.trim();
+          if (text) {
+            todos.push({ text, done: false });
+            saveTodos();
+            input.value = "";
+          }
+        };
+    
+        renderTodos();
+      });
+    </script>
+
+    <!--Timer-->
+    <%- include('../components/notebook') %>
 
     <!-- Room Scene -->
     <!-- <div class="container text-center">
@@ -218,5 +284,6 @@
     ></script>
     <script src="/assets/js/clock.js" defer></script>
     <script src="/assets/js/musicPlayer.js" defer></script>
+    <script src="/assets/js/timer.js"></script>
   </body>
 </html>
