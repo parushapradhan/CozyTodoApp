@@ -1,0 +1,38 @@
+<div class="notebook">
+    <div class="tabs">
+      <div class="tab selected" data-tab="timer">⏱ Timer</div>
+    </div>
+  
+    <div class="content" id="timer-content">
+      <h2>Timer</h2>
+      <div class="timer-container">
+        <label>Hrs:
+          <input type="number" id="hours" min="0" value="0" />
+        </label>
+        <label>Mins:
+          <input type="number" id="minutes" min="0" max="59" value="0" />
+        </label>
+        <label>Secs:
+          <input type="number" id="seconds" min="0" max="59" value="0" />
+        </label>
+  
+        <div class="timer-buttons">
+          <button onclick="startTimer()"> Start</button>
+          <button onclick="pauseTimer()"> Pause</button>
+          <button onclick="resetTimer()"> Reset</button>
+        </div>
+  
+        <p id="timer-display">Time left: --:--:--</p>
+      </div>
+    </div>
+  </div>
+  <div class="todo-container">
+    <h2>To-Do List</h2>
+  
+    <form id="todo-form">
+      <input type="text" id="todo-input" placeholder="Add a new task..." required />
+      <button type="submit">Add</button>
+    </form>
+  
+    <ul id="todo-list"></ul>
+  </div>
