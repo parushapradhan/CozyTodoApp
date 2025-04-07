@@ -1,47 +1,66 @@
-const tracks = [
-  { name: "Lofi Sunrise", src: "/assets/music/track1.mp3" },
-  { name: "Rainy Loops", src: "/assets/music/track2.mp3" },
-  { name: "Calm Forest", src: "/assets/music/track3.mp3" },
+const allTracks = [
+  { name: "Calm Wind", file: "/assets/music/track1.mp3" },
+  { name: "Evening Vibes", file: "/assets/music/track2.mp3" },
+  { name: "Cloud Drift", file: "/assets/music/track3.mp3" },
+  { name: "Fireplace", file: "/assets/music/track4.mp3" },
+  { name: "Birdsong", file: "/assets/music/track5.mp3" },
 ];
 
-let currentTrackIndex = 0;
-let audio = new Audio(tracks[currentTrackIndex].src);
-let isPlaying = false;
+let playlist = [];
+let currentHowl = null;
 
-function playTrack(index) {
-  audio.src = tracks[index].src;
-  audio.play();
-  isPlaying = true;
+const checkboxContainer = document.getElementById("track-list-dropdown");
+
+allTracks.forEach((track, index) => {
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.id = `track-${index}`;
+  checkbox.name = "selectedTracks"; // 💡 key for backend
+  checkbox.value = track.name;
+  checkbox.checked = true;
+  checkbox.addEventListener("change", updatePlaylist);
+
+  const label = document.createElement("label");
+  label.htmlFor = `track-${index}`;
+  label.textContent = track.name;
+
+  const wrapper = document.createElement("div");
+  wrapper.appendChild(checkbox);
+  wrapper.appendChild(label);
+  checkboxContainer.appendChild(wrapper);
+});
+
+function updatePlaylist() {
+  playlist = allTracks.filter(
+    (_, i) => document.getElementById(`track-${i}`).checked
+  );
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const toggleBtn = document.getElementById("toggle-music");
-  const shuffleBtn = document.getElementById("shuffle-music");
-  const trackList = document.getElementById("track-list");
+function playNext() {
+  if (playlist.length === 0) return;
 
-  toggleBtn.onclick = () => {
-    if (isPlaying) {
-      audio.pause();
-      isPlaying = false;
-    } else {
-      playTrack(currentTrackIndex);
-    }
-  };
+  const randomTrack = playlist[Math.floor(Math.random() * playlist.length)];
+  if (currentHowl) currentHowl.stop();
 
-  shuffleBtn.onclick = () => {
-    currentTrackIndex = Math.floor(Math.random() * tracks.length);
-    playTrack(currentTrackIndex);
-  };
-
-  tracks.forEach((track, index) => {
-    const li = document.createElement("li");
-    li.textContent = track.name;
-    li.style.color = "white";
-    li.style.cursor = "pointer";
-    li.onclick = () => {
-      currentTrackIndex = index;
-      playTrack(index);
-    };
-    trackList.appendChild(li);
+  currentHowl = new Howl({
+    src: [randomTrack.file],
+    onend: playNext,
   });
+  currentHowl.play();
+}
+
+document.getElementById("toggle-music").addEventListener("click", () => {
+  if (currentHowl && currentHowl.playing()) {
+    currentHowl.pause();
+  } else if (currentHowl) {
+    currentHowl.play();
+  } else {
+    playNext();
+  }
 });
+
+document.getElementById("shuffle-music").addEventListener("click", () => {
+  playNext();
+});
+
+updatePlaylist();
