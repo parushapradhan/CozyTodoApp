@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/assets/css/main.css" />
+  </head>
+  <body>
+    <div style="text-align: center; margin-top: 2rem;">
+      <h2>👑 Admin Panel</h2>
+    </div>
+
+    <div style="width: 80%; max-width: 800px; margin: 2rem auto;">
+      <% users.forEach((user, index) => { %>
+        <details style="margin-bottom: 1.5rem;">
+          <summary style="font-size: 1.3rem;"><strong><%= user.username %></strong></summary>
+          <div style="margin-left: 1rem; margin-top: 0.5rem;">
+            <p><strong>Email:</strong> <%= user.email %></p>
+            <p><strong>Level:</strong> <%= user.level || 1 %></p>
+            <p><strong>XP:</strong> <%= user.xp || 0 %></p>
+
+            <form action="/admin/update-level" method="POST" style="margin-bottom: 1rem;">
+              <input type="hidden" name="email" value="<%= user.email %>"/>
+              <select name="level">
+                <% for(let i = 1; i <= 20; i++) { %>
+                  <option value="<%= i %>" <%= user.level == i ? "selected" : "" %>><%= i %></option>
+                <% } %>
+              </select>
+              <button type="submit">Update Level</button>
+            </form>
+
+            <h5>Tasks:</h5>
+            <ul>
+              <% (user.tasks || []).forEach(task => { %>
+                <li>
+                  <%= task %>
+                  <form action="/admin/remove-task" method="POST" style="display:inline;">
+                    <input type="hidden" name="email" value="<%= user.email %>"/>
+                    <input type="hidden" name="task" value="<%= task %>"/>
+                    <button type="submit">❌</button>
+                  </form>
+                </li>
+              <% }) %>
+            </ul>
+
+            <form action="/admin/delete-user" method="POST">
+              <input type="hidden" name="email" value="<%= user.email %>"/>
+              <button type="submit">🗑️ Delete User</button>
+            </form>
+          </div>
+        </details>
+      <% }) %>
+    </div>
+  </body>
+</html>
