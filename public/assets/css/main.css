@@ -1,59 +1,365 @@
-:root{
-    --peach: #fae4da;
-    --pink: #f6aebf;
-    --dark-pink: #cb446c;
-    --darker-pink: #af305b;
-    --warm-white: #fefefe;
-    --pink-white: #f8ecf7;
+
+
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root {
+  --color-black: #000;
+  --color-white: #fff;
+  --color-background: #000;
+  --color-text: #fff;
+  --color-top-panel-bg: #f3c5ca;
+  --color-top-panel-border: #000;
+  --color-top-panel-text: #000;
+  --color-bottom-panel-bg: #ded0d9;
+  --color-bottom-panel-border: #a698a7;
+  --color-filename: #ccc;
+  --color-range-track: #ffdce0;
+  --color-range-thumb: #f48e9a;
+  --color-range-thumb-border: #000;
+  --color-menu-border: #a26073;
+  --color-menu-bg: #e4d9e3;
+  --color-menu-text: #000;
+  --color-menu-header-bg: #e2b0bb;
+  --color-menu-header-border: #a26073;
+  --color-menu-body-bg: #ded0d9;
+  --color-menu-body-border: #a698a7;
+  --color-add-btn-bg: #28a745;
+  --color-add-btn-bg-hover: #218838;
+  --color-text-shadow: rgba(0, 0, 0, 0.4);
+  --color-todo-input-border: #ccc;
+  --color-todo-item-border: #ddd;
+  --font-size:16px;
+  --font-family: 'Pixelify Sans', sans-serif;
+  --border-radius: 20px;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
-  background-color: #f6f1e8;
-  font-family: 'Press Start 2P', cursive;
-  display: flex;
-  justify-content: center;
-  padding-top: 2rem;
-  color: #4b3b2b;
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-background);
+  font-family: var(--font-family);
+  color: var(--color-text);
+  position: relative;
 }
 
-.notebook {
-  width: 400px;
-  background: #fffdf6;
-  border: 4px double #d4c1a3;
-  border-radius: 12px;
-  box-shadow: 5px 5px 10px rgba(60, 50, 30, 0.2);
-  padding: 1.5rem;
+/* Game container centered on the page */
+.game-container {
+  position: relative;
+  height: 90vh;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-.tabs {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+/* Room scene image styling */
+.house-image {
+  width: 100%;
+  max-width: 512px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
-.tab {
-  background: #e8d8c3;
-  border: 2px solid #b89c7a;
+/* Top-right panel for music and clock controls */
+.top-right-panel {
+  position: absolute;
+  /* top: 20px; */
+  right: 1px;
+  width: 200px;
+  background-color: var(--color-top-panel-bg);
+  border: 2px solid var(--color-top-panel-border);
   border-radius: 8px;
-  padding: 0.5rem 1rem;
+  padding: 10px;
+  box-sizing: border-box;
+  color: var(--color-top-panel-text);
+}
+
+
+
+.top-right-panel button {
+  font-size: 12px;
+  margin: 2px 0;
+  padding: 4px 6px;
   cursor: pointer;
-  font-size: 1.2rem;
-  transition: background 0.2s ease;
+}
+/* 
+.top-right-panel .section {
+  margin-bottom: 10px;
 }
 
-.tab:hover {
-  background: #d7c2a8;
+.top-right-panel .section:last-child {
+  margin-bottom: 0;
+} */
+
+/* Bottom panel for environmental sound controls */
+.bottom-panel {
+  margin-top: 20px;
+  background-color: var(--color-bottom-panel-bg);
+  border: 2px solid var(--color-bottom-panel-border);
+  border-radius: 8px;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
 }
 
-.tab.selected {
-  background: #c9b08c;
-  border-color: #a18464;
+.control {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.content {
-  background: #fffdf6;
-  padding: 1rem;
-  border-top: 2px dashed #d4c1a3;
+.control input[type="range"] {
+  width: 100px;
 }
+
+/* Optional styling for SVG icons */
+.control svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Bottom text label for file name */
+.filename {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--color-filename);
+}
+
+/* Music Player */
+/* Music sliders container */
+.music-sliders {
+  margin-bottom: 10px;
+}
+
+.slider-control {
+  margin-bottom: 5px;
+}
+
+.slider-control label {
+  font-size: 10px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* Custom slider styling with pink colors */
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background: var(--color-range-track); /* Track color */
+  border-radius: 5px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--color-range-thumb); /* Thumb color */
+  border: 2px solid var(--color-range-thumb-border);
+  border-radius: 20%;
+  cursor: pointer;
+  margin-top: -4px; /* Centers thumb on track */
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: var(--color-range-thumb);
+  border: 2px solid var(--color-range-thumb-border);
+  border-radius: 20%;
+  cursor: pointer;
+}
+
+/* Toggle buttons styling */
+.menu-toggle-buttons {
+  bottom: 1px;
+  right: 1px;
+  position: absolute;
+}
+
+.menu-toggle-buttons button {
+  font-size: 12px;
+  padding: 4px 6px;
+  cursor: pointer;
+  background-color: var(--color-menu-bg); 
+  border : 2px solid var(--color-menu-border);
+  border-radius: 8px;
+}
+
+.toggle-menu {
+  display: none;
+  position: absolute;
+  top: 150px; /* Adjust vertical position as needed */
+  right: 50px;
+  width: 220px;
+}
+
+.menu {
+  /* Outer container for the menu */
+  width: 300px;
+  border: 2px solid var(--color-menu-border);
+  border-radius: 10px;
+  background-color: var(--color-menu-bg);
+  /* Replace with a pixel font if desired */
+  color: var(--color-menu-text);
+  box-sizing: border-box;
+  padding: 8px;
+}
+
+.menu-header {
+  /* The top "title" section */
+  background-color: var(--color-menu-header-bg);
+  border: 2px solid var(--color-menu-header-border);
+  text-shadow: 2px 2px 2px var(--color-text-shadow);
+  border-radius: 20px;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 8px;
+  padding: 6px;
+  font-size: 14px;
+}
+
+.menu-body {
+  /* The main text area */
+  background-color: var(--color-menu-body-bg);
+  border: 2px solid var(--color-menu-body-border);
+  border-radius: 20px;
+  text-shadow: 2px 2px 2px var(--color-text-shadow);
+  padding: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.toggle-menu {
+  position: relative;
+  width: 400px; /* Adjust width as needed */
+  margin: 0 auto;
+}
+
+/* The book image used as the menu background */
+.toggle-menu img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Todo container over the image */
+.todo-container {
+  position: absolute;
+  top: 20px; /* Adjust vertical position */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  /* Semi-transparent white background for readability */
+  background: var(--color-menu-body-bg);
+  padding: 10px;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+/* Todo list styles */
+.todo-container h1 {
+  margin: 0;
+  font-size: 20px;
+  text-align: center;
+}
+
+.todo-input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid var(--color-todo-input-border);
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.add-btn {
+  width: 100%;
+  padding: 10px;
+  background: var(--color-add-btn-bg);
+  color: var(--color-white);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-btn:hover {
+  background: var(--color-add-btn-bg-hover);
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.todo-item {
+  padding: 8px;
+  border-bottom: 1px solid var(--color-menu-bg);
+  font-size: 16px;
+}
+
+.todo-item:last-child {
+  border-bottom: none;
+}
+
+.book-container {
+  width: 900px; /* Adjust width as needed */
+  margin: 0 auto;
+  height: 500px;
+  background-image: url("/assets/images/book.png");
+  background-size: cover;
+  background-position: center;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+
+/* clock */
+.calendar{
+  z-index: 100;
+  right: 1px;
+  background-image: url('/assets/images/calendar.png');
+  height: 70px;
+  text-align: center;
+  width: 70px;
+  position: absolute;
+}
+
+.border-text{
+  color: white;
+  text-shadow: 
+    -1px -1px 0 black,
+     1px -1px 0 black,
+    -1px  1px 0 black,
+     1px  1px 0 black;
+}
+
+
+
+/* Modal background overlay */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scrolling if needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+  align-items: center;
+  justify-content: center;
+}
+

@@ -40,5 +40,14 @@ app.get('/', function(req, res) {
 });
 
 
+app.get('/test', function(req, res) {
+  res.render('pages/test');
+});
+
+app.get('/idk', function(req, res) {
+  res.render('pages/idk');
+});
+
+
 app.listen(8080);
 console.log('Server is listening on port 8080');

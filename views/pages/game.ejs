@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Idle Timer Level-Up Game</title>
+  <style>
+    body {
+      background-color: #2e3440;
+      color: #eceff4;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #3b4252;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+    input[type="number"] {
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      width: 100px;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      margin: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #81a1c1;
+      color: #2e3440;
+    }
+    .display {
+      margin: 20px 0;
+      font-size: 1.2rem;
+    }
+    .progress-bar {
+      background: #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 20px;
+      margin: 10px 0;
+    }
+    .progress {
+      background: #81a1c1;
+      height: 100%;
+      width: 0%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Idle Timer Level-Up Game</h1>
+    <div>
+      <label for="timerInput">Set Timer (seconds): </label>
+      <input type="number" id="timerInput" value="60" min="1">
+      <button id="startBtn">Start Timer</button>
+    </div>
+    <div class="display">
+      <p>Time Remaining: <span id="timeDisplay">0</span> seconds</p>
+      <p>Total XP: <span id="xpDisplay">0</span></p>
+      <p>Current Level: <span id="levelDisplay">1</span></p>
+      <p>XP to Next Level: <span id="xpToNextDisplay">100</span></p>
+      <div class="progress-bar">
+        <div class="progress" id="xpProgress"></div>
+      </div>
+    </div>
+    <button id="resetBtn">Reset Game</button>
+  </div>
+
+  <script>
+    // Game variables
+    let totalXP = 0;
+    let currentLevel = 1;
+    let xpForNextLevel = 100; // XP needed for level 1 -> 2
+    let timerValue = 0; // The timer set by the user
+    let timeRemaining = 0;
+    let timerInterval;
+
+    // DOM elements
+    const timerInput = document.getElementById('timerInput');
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const timeDisplay = document.getElementById('timeDisplay');
+    const xpDisplay = document.getElementById('xpDisplay');
+    const levelDisplay = document.getElementById('levelDisplay');
+    const xpToNextDisplay = document.getElementById('xpToNextDisplay');
+    const xpProgress = document.getElementById('xpProgress');
+
+    // Update all displays
+    function updateDisplay() {
+      timeDisplay.textContent = timeRemaining;
+      xpDisplay.textContent = totalXP;
+      levelDisplay.textContent = currentLevel;
+      xpToNextDisplay.textContent = xpForNextLevel - totalXP;
+      let progressPercent = Math.min(100, (totalXP / xpForNextLevel) * 100);
+      xpProgress.style.width = progressPercent + '%';
+    }
+
+    // Check and apply leveling up
+    function levelUp() {
+      // If totalXP meets or exceeds the current threshold, level up
+      while (totalXP >= xpForNextLevel) {
+        totalXP -= xpForNextLevel;
+        currentLevel++;
+        // Increase XP requirement for next level; here it's level * 100.
+        xpForNextLevel = currentLevel * 100;
+      }
+    }
+
+    // Start the countdown timer
+    startBtn.addEventListener('click', () => {
+      if (timerInterval) return; // Timer already running
+      
+      timerValue = parseInt(timerInput.value);
+      if (isNaN(timerValue) || timerValue <= 0) {
+        alert("Please enter a valid number of seconds.");
+        return;
+      }
+      timeRemaining = timerValue;
+      // Disable input and button while the timer is running
+      timerInput.disabled = true;
+      startBtn.disabled = true;
+      updateDisplay();
+
+      timerInterval = setInterval(() => {
+        if (timeRemaining > 0) {
+          timeRemaining--;
+          updateDisplay();
+        } else {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          // Award XP based on the timer value (you can change the multiplier as desired)
+          totalXP += timerValue;
+          levelUp();
+          updateDisplay();
+          // Re-enable input and button for a new round
+          timerInput.disabled = false;
+          startBtn.disabled = false;
+        }
+      }, 1000);
+    });
+
+    // Reset the game state
+    resetBtn.addEventListener('click', () => {
+      if (timerInterval) clearInterval(timerInterval);
+      totalXP = 0;
+      currentLevel = 1;
+      xpForNextLevel = 100;
+      timeRemaining = 0;
+      timerInterval = null;
+      timerInput.disabled = false;
+      startBtn.disabled = false;
+      updateDisplay();
+    });
+
+    updateDisplay();
+  </script>
+</body>
+</html>

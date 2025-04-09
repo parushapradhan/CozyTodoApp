@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cozy Game UI</title>
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  <link rel="stylesheet" href="/assets/css/clock.css" />
+  <link rel="stylesheet" href="/assets/css/musicPlayer.css" />
+  <link rel="stylesheet" href="/assets/css/todo.css" />
+  <link rel="stylesheet" href="/assets/css/toggleMenu.css" />
+  <link rel="stylesheet" href="/assets/css/game.css" />
+  <link rel="stylesheet" href="/assets/css/slider.css" />
+</head>
+<body>
+
+  <div class="game-container">
+    <div class="top-right-panel">
+      <!--Clock section-->
+      <div class="section" id="clock">
+        <span id="time" class="border-text">6:30 AM</span>
+      </div>  
+    </div>
+
+
+    <div class="top-right-panel" style="top: 40px;width:150px;padding:30px">
+      <%- include('../partials/background-sound'); %>
+    </div>
+
+    <div class="calendar">
+      10 
+    </div>
+ 
+    <!-- Main room scene image -->
+    <img
+      src="/assets/images/226539456-1727243746.webp"
+      alt="Room"
+      class="house-image"
+    />
+
+    <!-- Music player section --> 
+
+    <div class="filename">
+      <%- include('../partials/music'); %>
+    </div>
+  </div>
+
+
+
+  <div id="menu-1" class="menu toggle-menu">
+      <div class="menu-header">Refreshing</div>
+      <div class="menu-body">
+        Watering a crop will sometimes refund the Stamina used.
+        <button id="toggle-format">Toggle 12/24hr</button>
+      </div>
+    </div>
+
+
+  <%- include('../partials/todo'); %>
+
+  <div class="menu-toggle-buttons">
+    <button id="settings">S</button>
+    <button id="notebook">M</button>
+  </div>
+
+  <!-- JavaScript: Howler and sound control scripts -->
+  <script src="//cdn.jsdelivr.net/npm/phaser@3.86.0/dist/phaser.js"></script>
+  <script src="/assets/js/howler.min.js"></script>
+  <script>
+    // Initialize Howler sound objects with looping
+    var birds = new Howl({ src: ["/assets/music/birds.mp3"], loop: true });
+    var cicadas = new Howl({ src: ["/assets/music/cicadas.mp3"], loop: true });
+    var fire = new Howl({ src: ["/assets/music/fire.mp3"], loop: true });
+    var rain = new Howl({ src: ["/assets/music/rain.mp3"], loop: true });
+    var wind = new Howl({ src: ["/assets/music/wind.mp3"], loop: true });
+
+    // Play each sound and store the players
+    let birdsSoundPlayer = birds.play();
+    let cicadasSoundPlayer = cicadas.play();
+    let fireSoundPlayer = fire.play();
+    let rainSoundPlayer = rain.play();
+    let windSoundPlayer = wind.play();
+
+    // Link sliders to their corresponding sound objects
+    const birdsSlider = document.getElementById("birds");
+    const cicadasSlider = document.getElementById("cicadas");
+    const windSlider = document.getElementById("wind");
+    const rainSlider = document.getElementById("rain");
+    const fireSlider = document.getElementById("fire");
+
+    birdsSlider.addEventListener("input", updateValue);
+    cicadasSlider.addEventListener("input", updateValue);
+    windSlider.addEventListener("input", updateValue);
+    rainSlider.addEventListener("input", updateValue);
+    fireSlider.addEventListener("input", updateValue);
+
+    function updateValue(e) {
+      const soundPlayer = getSoundPlayer(e.target.id);
+      soundPlayer.volume(e.target.value / 100);
+    }
+
+    function getSoundPlayer(id) {
+      if (id === "birds") return birds;
+      if (id === "cicadas") return cicadas;
+      if (id === "wind") return wind;
+      if (id === "rain") return rain;
+      if (id === "fire") return fire;
+    }
+
+
+        // Toggle functionality for Menu 1
+    document.getElementById('settings').addEventListener('click', function() {
+      var menu1 = document.getElementById('menu-1');
+      menu1.style.display = (menu1.style.display === 'none' || menu1.style.display === '') ? 'flex' : 'none';
+    });
+    
+    // Toggle functionality for Menu 2
+    document.getElementById('notebook').addEventListener('click', function() {
+      var menu2 = document.getElementById('menu-2');
+      menu2.style.display = (menu2.style.display === 'none' || menu2.style.display === '') ? 'flex' : 'none';
+    });
+
+    document.addEventListener('keydown', function(event) {
+    if (event.key.toLowerCase() === 'm') {
+      var menu2 = document.getElementById('menu-2');
+      menu2.style.display = (menu2.style.display === 'none' || menu2.style.display === '') ? 'flex' : 'none';
+    }});
+
+
+    document.addEventListener('keydown', function(event) {
+    if (event.key.toLowerCase() === 's') {
+      var menu2 = document.getElementById('menu-1');
+      menu2.style.display = (menu1.style.display === 'none' || menu1.style.display === '') ? 'flex' : 'none';
+    }});
+
+
+  </script>
+  <script src="/assets/js/clock.js" defer></script>
+  <script src="/assets/js/musicPlayer.js" defer></script>
+  <script src="/assets/js/todo.js" defer></script>
+</body>
+</html>
