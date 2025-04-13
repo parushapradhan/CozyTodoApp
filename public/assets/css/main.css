@@ -331,9 +331,9 @@ input[type="range"]::-moz-range-thumb {
   z-index: 100;
   right: 1px;
   background-image: url('/assets/images/calendar.png');
-  height: 70px;
+  height: 113px;
   text-align: center;
-  width: 70px;
+  width: 80px;
   position: absolute;
 }
 

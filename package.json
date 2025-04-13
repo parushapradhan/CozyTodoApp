@@ -4,8 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "dev": "parcel public/assets/js/game.js --dist-dir public/js --no-source-maps --open",
     "start": "node server.js",
-    "dev": "nodemon server.js",
+    "build": "parcel build src/js/game.js --dist-dir public/js",
     "kill": "kill -9 $(lsof -t -i:8080)",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,13 +14,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@excaliburjs/plugin-aseprite": "^0.30.2",
+    "@excaliburjs/plugin-ldtk": "^0.30.2",
     "body-parser": "^2.2.0",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
+    "excalibur": "^0.30.3",
     "express": "^5.1.0",
     "mongoose": "^8.13.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "parcel": "^2.14.4",
+    "vite": "^6.2.6"
   }
 }

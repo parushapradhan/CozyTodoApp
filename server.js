@@ -49,5 +49,9 @@ app.get('/idk', function(req, res) {
 });
 
 
+app.get('/game', function(req, res) {
+  res.render('pages/game');
+});
+
 app.listen(8080);
 console.log('Server is listening on port 8080');

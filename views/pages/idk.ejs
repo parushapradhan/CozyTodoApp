@@ -10,6 +10,10 @@
   <link rel="stylesheet" href="/assets/css/toggleMenu.css" />
   <link rel="stylesheet" href="/assets/css/game.css" />
   <link rel="stylesheet" href="/assets/css/slider.css" />
+  <!-- <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script> -->
+  <script src="https://unpkg.com/excalibur@0.30.0"></script>
+  <script type="module" src="/assets/js/excalibur.js"></script>
+
 </head>
 <body>
 
@@ -31,12 +35,14 @@
     </div>
  
     <!-- Main room scene image -->
-    <img
+    <!-- <img
       src="/assets/images/226539456-1727243746.webp"
       alt="Room"
       class="house-image"
-    />
+    /> -->
+    <!-- <%- include('../partials/game') %> -->
 
+    <!-- <%include('../partials/excalibur') %> -->
     <!-- Music player section --> 
 
     <div class="filename">
@@ -135,6 +141,8 @@
 
   </script>
   <script src="/assets/js/clock.js" defer></script>
+  <script src="/assets/js/excalibur.js" defer></script>
+  <!-- <script src="/assets/js/game.js" defer></script> -->
   <script src="/assets/js/musicPlayer.js" defer></script>
   <script src="/assets/js/todo.js" defer></script>
 </body>
