@@ -44,10 +44,6 @@ app.get('/test', function(req, res) {
   res.render('pages/test');
 });
 
-app.get('/idk', function(req, res) {
-  res.render('pages/idk');
-});
-
 
 app.get('/game', function(req, res) {
   res.render('pages/game');
