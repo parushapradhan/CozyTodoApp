@@ -4,9 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "parcel public/assets/js/game.js --dist-dir public/js --no-source-maps --open",
     "start": "node server.js",
-    "build": "parcel build src/js/game.js --dist-dir public/js",
+    "dev": "nodemon server.js",
     "kill": "kill -9 $(lsof -t -i:8080)",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,8 +23,6 @@
     "mongoose": "^8.13.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9",
-    "parcel": "^2.14.4",
-    "vite": "^6.2.6"
+    "nodemon": "^3.1.9"
   }
 }
