@@ -1,4 +1,3 @@
-.game-container{
-    display: flex;
-    justify-content: center;
+.game-content{
+    margin: auto;
 }

@@ -2,7 +2,7 @@
 window.addEventListener('load', () => {
     const config = {
       type: Phaser.AUTO,
-      parent: 'game-container',
+      parent: 'game-content',
       width: 256,           
       height: 256,
       zoom: 3,

@@ -43,20 +43,23 @@
 
 
 
-  <div id="menu-1" class="menu toggle-menu">
-      <div class="menu-header">Refreshing</div>
+  <div id="menu-1" class="toggle-menu modal">
+    <div class="menu">
+      <div class="menu-header">Menu</div>
       <div class="menu-body">
-        Watering a crop will sometimes refund the Stamina used.
+        Dozy? 
+        Henrietta?
         <button id="toggle-format">Toggle 12/24hr</button>
       </div>
+    </div>
     </div>
 
 
   <%- include('../partials/todo'); %>
 
   <div class="menu-toggle-buttons">
-    <button id="settings">S</button>
-    <button id="notebook">M</button>
+    <button id="settings">ESC</button>
+    <button id="notebook">SHIFT</button>
   </div>
 
   <!-- JavaScript: Howler and sound control scripts -->
@@ -117,17 +120,19 @@
     });
 
     document.addEventListener('keydown', function(event) {
-    if (event.key.toLowerCase() === 'm') {
-      var menu2 = document.getElementById('menu-2');
-      menu2.style.display = (menu2.style.display === 'none' || menu2.style.display === '') ? 'flex' : 'none';
-    }});
+  if (event.key.toLowerCase() === 'escape') {
+    var menu2 = document.getElementById('menu-2');
+    menu2.style.display = (menu2.style.display === 'none' || menu2.style.display === '') ? 'flex' : 'none';
+  }
+});
 
+document.addEventListener('keydown', function(event) {
+  if (event.key.toLowerCase() === 'shift') {
+    var menu1 = document.getElementById('menu-1');
+    menu1.style.display = (menu1.style.display === 'none' || menu1.style.display === '') ? 'flex' : 'none';
+  }
+});
 
-    document.addEventListener('keydown', function(event) {
-    if (event.key.toLowerCase() === 's') {
-      var menu2 = document.getElementById('menu-1');
-      menu2.style.display = (menu1.style.display === 'none' || menu1.style.display === '') ? 'flex' : 'none';
-    }});
 
 
   </script>
