@@ -24,14 +24,12 @@
     </div>
 
 
-    <div class="top-right-panel" style="top: 113px;width:150px;padding:10px">
+    <div class="top-right-panel" style="top: 113px;width:150px;padding:10px;height:150px">
       <%- include('../partials/background-sound'); %>
     </div>
 
-    <div class="calendar">
-      10 
-    </div>
- 
+
+    <%- include('../partials/calendar') %>
     <!-- Main room scene image -->
     <%- include('../partials/game') %>
     <!-- Music player section --> 
@@ -141,5 +139,6 @@ document.addEventListener('keydown', function(event) {
   <script src="/assets/js/game.js" defer></script>
   <script src="/assets/js/musicPlayer.js" defer></script>
   <script src="/assets/js/todo.js" defer></script>
+  <script src="/assets/js/calendar.js" defer></script>
 </body>
 </html>
