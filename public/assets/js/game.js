@@ -2,15 +2,11 @@
 window.addEventListener('load', () => {
     const config = {
       type: Phaser.AUTO,
-      parent: 'game-container', // This attaches the Phaser canvas to the div with id="game-container"
-      width: 256,           // desired game width
+      parent: 'game-container',
+      width: 256,           
       height: 256,
       zoom: 3,
-      pixelArt: true,           // desired game height
-      // scale: {
-      //   mode: Phaser.Scale.FIT,      // scale the canvas to fit the available space
-      //   autoCenter: Phaser.Scale.CENTER_BOTH
-      // },
+      pixelArt: true,           
       physics: {
         default: 'arcade',
         arcade: { gravity: { y: 0 }, debug: false }
@@ -29,41 +25,39 @@ window.addEventListener('load', () => {
         this.load.image('floors', '/assets/images/wizard/Interior/floors.png');
 
 
-      this.load.spritesheet('Entity2Sprite', '/assets/sprites/entity2_anim.png', { frameWidth: 64, frameHeight: 64 });
+      // this.load.spritesheet('Entity2Sprite', '/assets/sprites/entity2_anim.png', { frameWidth: 64, frameHeight: 64 });
       
       // --- Load other game assets ---
         //   PlAYER IDLE
-        this.load.spritesheet('player_idle_left', '/assets/images/wizard/character/idle/ROLEWORLD_MC_SKIN_PALE_WIZARD_IDLE_LEFT.png', { frameWidth: 16, frameHeight: 32 });
-        this.load.spritesheet('player_idle_right', '/assets/images/wizard/character/idle/ROLEWORLD_MC_SKIN_PALE_WIZARD_IDLE_RIGHT.png', { frameWidth: 16, frameHeight: 32 });
-        this.load.spritesheet('player_idle_front', '/assets/images/wizard/character/idle/ROLEWORLD_MC_SKIN_PALE_WIZARD_IDLE_FRONT.png', { frameWidth: 32, frameHeight: 32 });   
-        this.load.spritesheet('player_idle_back', '/assets/images/wizard/character/idle/ROLEWORLD_MC_SKIN_PALE_WIZARD_IDLE_BACK.png', { frameWidth: 16, frameHeight: 32 });
+        this.load.spritesheet('player_idle_left', '/assets/images/wizard/character/idle/ROLEWORLD_MC_SKIN_PALE_WIZARD_IDLE_LEFT.png', { frameWidth: 16, frameHeight: 30 });
+        this.load.spritesheet('player_idle_right', '/assets/images/wizard/character/idle/ROLEWORLD_MC_SKIN_PALE_WIZARD_IDLE_RIGHT.png', { frameWidth: 16, frameHeight: 30 });
+        this.load.spritesheet('player_idle_front', '/assets/images/wizard/character/idle/ROLEWORLD_MC_SKIN_PALE_WIZARD_IDLE_FRONT.png', { frameWidth: 16, frameHeight: 30 });   
+        this.load.spritesheet('player_idle_back', '/assets/images/wizard/character/idle/ROLEWORLD_MC_SKIN_PALE_WIZARD_IDLE_BACK.png', { frameWidth: 16, frameHeight: 30 });
    
 
         //   PLAYER WALKING
-        this.load.spritesheet('player_walk_left', '/assets/images/wizard/character/walk/ROLEWORLD_MC_SKIN PALE_WIZARD WALK LEFT.png', { frameWidth: 16, frameHeight: 32 });
-        this.load.spritesheet('player_walk_right', '/assets/images/wizard/character/walk/ROLEWORLD_MC_SKIN PALE_WIZARD WALK RIGHT.png', { frameWidth: 16, frameHeight: 32 });
-        this.load.spritesheet('player_walk_front', '/assets/images/wizard/character/walk/ROLEWORLD_MC_SKIN PALE_WIZARD WALK FRONT.png', { frameWidth: 16, frameHeight: 32 });
-        this.load.spritesheet('player_walk_back', '/assets/images/wizard/character/walk/ROLEWORLD_MC_SKIN PALE_WIZARD WALK BACK.png', { frameWidth: 16, frameHeight: 32 });
+        this.load.spritesheet('player_walk_left', '/assets/images/wizard/character/walk/ROLEWORLD_MC_SKIN PALE_WIZARD WALK LEFT.png', { frameWidth: 16, frameHeight: 30 });
+        this.load.spritesheet('player_walk_right', '/assets/images/wizard/character/walk/ROLEWORLD_MC_SKIN PALE_WIZARD WALK RIGHT.png', { frameWidth: 16, frameHeight: 30 });
+        this.load.spritesheet('player_walk_front', '/assets/images/wizard/character/walk/ROLEWORLD_MC_SKIN PALE_WIZARD WALK FRONT.png', { frameWidth: 16, frameHeight: 30 });
+        this.load.spritesheet('player_walk_back', '/assets/images/wizard/character/walk/ROLEWORLD_MC_SKIN PALE_WIZARD WALK BACK.png', { frameWidth: 16, frameHeight: 30 });
         
 
         //Animated Objects
-        this.load.spritesheet('animated_basement', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_INTERIOR_BASEMENT.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('animated_blue_book', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_INTERIOR_BLUE BOOK.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('animated_water_pump','/assets/images/wizard/animations/ROLEWORLD_WIZARD_INTERIOR_BLUE WATER PUMP.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('animated_candle1', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_INTERIOR_CANDLE 1.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('animated_candle2', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_INTERIOR_CANDLE 2.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('animated_candle3', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_INTERIOR_CANDLE 3.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('animated_candle4', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_INTERIOR_CANDLE 4.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('animated_candle5', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_INTERIOR_CANDLE 5.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('animated_candle6', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_INTERIOR_CANDLE 6.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('animated_cauldron1', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_INTERIOR_CAULDRON 1.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('animated_cauldron2', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_INTERIOR_CAULDRON 2.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('animated_cauldron3', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_INTERIOR_CAULDRON 3.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('animated_chest1', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_INTERIOR_CHEST 1.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('animated_fireplace', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_INTERIOR_FIREPLACE.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('animated_basement', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_ANIMATED INTERIOR_BASEMENT.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.spritesheet('animated_blue_book', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_ANIMATED INTERIOR_BLUE BOOK.png', { frameWidth: 16, frameHeight: 16 });
+        this.load.spritesheet('animated_water_pump','/assets/images/wizard/animations/ROLEWORLD_WIZARD_ANIMATED INTERIOR_BLUE WATER PUMP.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('animated_candle1', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_ANIMATED INTERIOR_CANDLE 1.png', { frameWidth: 16, frameHeight: 16 });
+        this.load.spritesheet('animated_candle2', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_ANIMATED INTERIOR_CANDLE 2.png', { frameWidth: 16, frameHeight: 16 });
+        this.load.spritesheet('animated_candle3', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_ANIMATED INTERIOR_CANDLE 3.png', { frameWidth: 16, frameHeight: 16 });
+        this.load.spritesheet('animated_candle4', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_ANIMATED INTERIOR_CANDLE 4.png', { frameWidth: 16, frameHeight: 16 });
+        this.load.spritesheet('animated_cauldron1', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_ANIMATED INTERIOR_CAULDRON 1.png', { frameWidth: 64, frameHeight: 64 });
+        this.load.spritesheet('animated_cauldron2', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_ANIMATED INTERIOR_CAULDRON 2.png', { frameWidth: 64, frameHeight: 64 });
+        this.load.spritesheet('animated_cauldron3', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_ANIMATED INTERIOR_CAULDRON 3.png', { frameWidth: 64, frameHeight: 64 });
+        this.load.spritesheet('animated_chest1', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_ANIMATED INTERIOR_CHEST 1.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('animated_fireplace', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_ANIMATED INTERIOR_FIREPLACE.png', { frameWidth: 48, frameHeight: 30 });
         
         //interactive fireplace
-        this.load.spritesheet('fireplace_off', 'assets/images/fireplace/spr_blacksmith_fireplace_spring_on/spr_blacksmith_fireplace_spring_on_0.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('fireplace_on', '/assets/images/wizard/animations/fireplace.png', { frameWidth: 112, frameHeight: 112 });
         
         // Load decoration image
         // this.load.image('decoration', '/assets/images/interior.png');
@@ -94,25 +88,26 @@ window.addEventListener('load', () => {
       // Create animations for walking.
       this.anims.create({
         key: 'walk-front',
-        frames: this.anims.generateFrameNumbers('player_walk_front', { start: 0, end: 6 }),
-        frameRate: 10,
+        frames: this.anims.generateFrameNumbers('player_walk_front', { start: 0, end: 5 }),
+        frameRate: 6,
         repeat: -1
       });
+
       this.anims.create({
         key: 'walk-back',
-        frames: this.anims.generateFrameNumbers('player_walk_back', { start: 0, end: 6 }),
-        frameRate: 10,
+        frames: this.anims.generateFrameNumbers('player_walk_back', { start: 0, end: 5 }),
+        frameRate: 6,
         repeat: -1
       });
       this.anims.create({
         key: 'walk-left',
-        frames: this.anims.generateFrameNumbers('player_walk_left', { start: 0, end: 6 }),
-        frameRate: 10,
+        frames: this.anims.generateFrameNumbers('player_walk_left', { start: 0, end: 5 }),
+        frameRate: 6,
         repeat: -1
       });
       this.anims.create({
         key: 'walk-right',
-        frames: this.anims.generateFrameNumbers('player_walk_right', { start: 0, end: 6 }),
+        frames: this.anims.generateFrameNumbers('player_walk_right', { start: 0, end: 5 }),
         frameRate: 10,
         repeat: -1
       });
@@ -139,57 +134,138 @@ window.addEventListener('load', () => {
         frameRate: 1
       });
 
-      // this.cameras.main.setZoom(1);
-     
-  
-      // --- Create the Draggable Decoration ---
-      decoration = this.add.image(200, 200, 'decoration').setInteractive();
-      this.input.setDraggable(decoration);
-      this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
-        gameObject.x = dragX;
-        gameObject.y = dragY;
-      });
-  
-      // --- Create the Interactive Object ---
-      interactiveObj = this.physics.add.sprite(500, 400, 'interactive');
+      //create the animated cauldron
       this.anims.create({
-        key: 'interactive-anim',
-        frames: this.anims.generateFrameNumbers('interactive', { start: 0, end: 3 }),
-        frameRate: 5,
+        key: 'animated_blue_book',
+        frames: this.anims.generateFrameNumbers('animated_blue_book', { start: 0, end: 5 }),
+        frameRate: 6,
         repeat: -1
       });
-      interactiveObj.anims.play('interactive-anim');
-      interactiveObj.anims.pause();
+      blue = this.physics.add.sprite(40, 216, 'animated_blue_book');
+      blue.anims.play('animated_blue_book');
+      // this.cameras.main.setZoom(1);
+     
+
+      this.anims.create({
+        key: 'animated_cauldron3',
+        frames: this.anims.generateFrameNumbers('animated_cauldron3', { start: 0, end: 5 }),
+        frameRate: 6,
+        repeat: -1
+      });
+      cauldron = this.physics.add.sprite(120, 150, 'animated_cauldron3');
+      cauldron.anims.play('animated_cauldron3')
+
+
+      //candle
+      this.anims.create({
+        key: 'animated_candle1',
+        frames: this.anims.generateFrameNumbers('animated_candle1', { start: 0, end: 5 }),
+        frameRate: 6,
+        repeat: -1
+      });
+
+      this.anims.create({
+        key: 'animated_candle2',
+        frames: this.anims.generateFrameNumbers('animated_candle2', { start: 0, end: 5 }),
+        frameRate: 6,
+        repeat: -1
+      });
+
+      this.anims.create({
+        key: 'animated_candle3',
+        frames: this.anims.generateFrameNumbers('animated_candle3', { start: 0, end: 5 }),
+        frameRate: 6,
+        repeat: -1
+      });
+
+      this.anims.create({
+        key: 'animated_candle4',
+        frames: this.anims.generateFrameNumbers('animated_candle4', { start: 0, end: 5 }),
+        frameRate: 6,
+        repeat: -1
+      });
+      candle1 = this.physics.add.sprite(17, 141, 'animated_candle1');
+      candle1.anims.play('animated_candle1')
+  
+
+      // basement
+      this.anims.create({
+        key: 'animated_basement',
+        frames: this.anims.generateFrameNumbers('animated_basement', { start: 0, end: 5 }),
+        frameRate: 6,
+        repeat: -1
+      });
+      basement = this.physics.add.sprite(140, 220, 'animated_basement');
+      basement.anims.play('animated_basement')
+
+      //chest
+      // this.anims.create({
+      //   key: 'animated_chest',
+      //   frames: this.anims.generateFrameNumbers('animated_chest', { start: 0, end: 5 }),
+      //   frameRate: 6,
+      //   repeat: -1
+      // });
+      // chest = this.physics.add.sprite(30, 10, 'animated_chest');
+      // chest.anims.play('animated_chest')
+
+      
+      // --- Create the Draggable Decoration ---
+      // decoration = this.add.image(200, 200, 'decoration').setInteractive();
+      // this.input.setDraggable(decoration);
+      // this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
+      //   gameObject.x = dragX;
+      //   gameObject.y = dragY;
+      // });
+  
+      // --- Create the Interactive Object ---
+      // interactiveObj = this.physics.add.sprite(200, 75, 'animated_fireplace');
+      // this.anims.create({
+      //   key: 'animated_fireplace',
+      //   frames: this.anims.generateFrameNumbers('animated_fireplace', { start: 0, end: 5 }),
+      //   frameRate: 6,
+      //   repeat: -1
+      // });
+      // interactiveObj.anims.play('animated_fireplace');
+
+      interactiveObj = this.physics.add.sprite(205, 60, 'fireplace_on');
+      this.anims.create({
+        key: 'fireplace_on',
+        frames: this.anims.generateFrameNumbers('fireplace_on', { start: 0, end: 3 }),
+        frameRate: 4,
+        repeat: -1
+      });
+      interactiveObj.anims.play('fireplace_on');
+      // interactiveObj.anims.pause();
   
       // --- Input Setup ---
       cursors = this.input.keyboard.createCursorKeys();
-      keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-      this.physics.add.overlap(player, interactiveObj, () => {
-        if (Phaser.Input.Keyboard.JustDown(keyE)) {
-          if (interactiveObj.anims.isPaused) {
-            interactiveObj.anims.resume();
-          } else {
-            interactiveObj.anims.pause();
-            interactiveObj.setFrame(0);
-          }
-        }
-      });
+      // keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+      // this.physics.add.overlap(player, interactiveObj, () => {
+      //   if (Phaser.Input.Keyboard.JustDown(keyE)) {
+      //     if (interactiveObj.anims.isPaused) {
+      //       interactiveObj.anims.resume();
+      //     } else {
+      //       interactiveObj.anims.pause();
+      //       interactiveObj.setFrame(0);
+      //     }
+      //   }
+      // });
     }
   
     function update() {
       // Reset velocity
       player.body.setVelocity(0);
-      
+      let currentDirection = 'front'; // Default direction is 'front'
       let moving = false;
       // Check movement input and switch texture & animation accordingly.
       if (cursors.left.isDown) {
+        currentDirection = 'left';
+        moving = true;
         player.body.setVelocityX(-150);
         if (player.texture.key !== 'player_walk_left') {
           player.setTexture('player_walk_left');
           player.anims.play('walk-left', true);
         }
-        currentDirection = 'left';
-        moving = true;
       } else if (cursors.right.isDown) {
         player.body.setVelocityX(150);
         if (player.texture.key !== 'player_walk_right') {

@@ -70,11 +70,13 @@ body {
   position: absolute;
   /* top: 20px; */
   right: 1px;
-  width: 200px;
+  width: 300px;
+  height:113px;
   background-color: var(--color-top-panel-bg);
   border: 2px solid var(--color-top-panel-border);
   border-radius: 8px;
   padding: 10px;
+  font-size: 40px;
   box-sizing: border-box;
   color: var(--color-top-panel-text);
 }
@@ -298,21 +300,6 @@ input[type="range"]::-moz-range-thumb {
   background: var(--color-add-btn-bg-hover);
 }
 
-.todo-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.todo-item {
-  padding: 8px;
-  border-bottom: 1px solid var(--color-menu-bg);
-  font-size: 16px;
-}
-
-.todo-item:last-child {
-  border-bottom: none;
-}
 
 .book-container {
   width: 900px; /* Adjust width as needed */
