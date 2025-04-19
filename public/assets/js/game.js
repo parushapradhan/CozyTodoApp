@@ -9,7 +9,7 @@ window.addEventListener('load', () => {
       pixelArt: true,           
       physics: {
         default: 'arcade',
-        arcade: { gravity: { y: 0 }, debug: false }
+        arcade: { gravity: { y: 0 }, debug: false , debugShowBody: false}
       },
       scene: { preload, create, update }
     };
@@ -66,8 +66,20 @@ window.addEventListener('load', () => {
     }
   
     function create() {
-  
+      // this.physics.world.setBounds(x, y, width, height);
+      // this.physics.world.setBoundsCollision();
+// this.physics.world.setBoundsCollision(left, right, up, down);
+
+      // this.physics.world.setBounds(x, y, width, height, checkLeft, checkRight, checkUp, checkDown);
+      
       cursors = this.input.keyboard.createCursorKeys();
+      keys = this.input.keyboard.addKeys({
+        A: Phaser.Input.Keyboard.KeyCodes.A,
+        S: Phaser.Input.Keyboard.KeyCodes.S,
+        D: Phaser.Input.Keyboard.KeyCodes.D,
+        W: Phaser.Input.Keyboard.KeyCodes.W
+      });
+
       // --- Create the Tilemap ---
       const map = this.make.tilemap({ key: 'level0' });
       const furnitureTileset = map.addTilesetImage('ROLEWORLD_WIZARD_INTERIOR_ASSET', 'furniture');
@@ -79,11 +91,39 @@ window.addEventListener('load', () => {
       map.createLayer('Furniture_3', furnitureTileset, 0, 0);
       map.createLayer('Furniture_4', furnitureTileset, 0, 0);
       this.cameras.main.setBackgroundColor('#e3c7c7');
+              // CREATE COLLISIONS 
+  
+        const obstacles = this.physics.add.staticGroup();
+        // Bed (top-left)
+        obstacles.create(45, 60).setSize(40, 60).setOffset(-20, -30).refreshBody();
+        obstacles.create(115, 150).setSize(80, 40).setOffset(-40, -20).refreshBody();
+        
+        //  Fireplace (top-middle)
+        obstacles.create(190, 100).setSize(70, 50).setOffset(-35, -25).refreshBody();
+        obstacles.create(230, 100).setSize(30, 30).setOffset(-15, -15).refreshBody();
+        
+        // Books at the foot of bed
+        obstacles.create(30, 110).setSize(20, 20).setOffset(-10, -10).refreshBody();
+        
+        //  Staircase (bottom-right)
+        obstacles.create(215, 235).setSize(50, 30).setOffset(-25, -15).refreshBody()
+
+        // Top wall (across the entire top edge)
+        const topWall = this.physics.add.staticSprite(120, 40, null)  // Centered horizontally, very top
+        .setSize(256, 90)      // Full width, thin height
+        .setOrigin(0.5, 0)     // Align to top
+        .refreshBody();
+        obstacles.add(topWall);
 
         // --- Create the Player ---
         // Create the player using the idle front spritesheet as the initial texture.
         player = this.physics.add.sprite(200, 150, 'player_idle_front');
+        player.setSize(32, 20).setOffset(2, 10);
+
         player.setCollideWorldBounds(true);
+        this.physics.add.collider(player, obstacles);
+        this.physics.add.collider(player, topWall);
+
 
       // Create animations for walking.
       this.anims.create({
@@ -236,20 +276,7 @@ window.addEventListener('load', () => {
       });
       interactiveObj.anims.play('fireplace_on');
       // interactiveObj.anims.pause();
-  
-      // --- Input Setup ---
-      cursors = this.input.keyboard.createCursorKeys();
-      // keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-      // this.physics.add.overlap(player, interactiveObj, () => {
-      //   if (Phaser.Input.Keyboard.JustDown(keyE)) {
-      //     if (interactiveObj.anims.isPaused) {
-      //       interactiveObj.anims.resume();
-      //     } else {
-      //       interactiveObj.anims.pause();
-      //       interactiveObj.setFrame(0);
-      //     }
-      //   }
-      // });
+
     }
   
     function update() {
@@ -258,7 +285,7 @@ window.addEventListener('load', () => {
       let currentDirection = 'front'; // Default direction is 'front'
       let moving = false;
       // Check movement input and switch texture & animation accordingly.
-      if (cursors.left.isDown) {
+      if (cursors.left.isDown || keys.A.isDown) {
         currentDirection = 'left';
         moving = true;
         player.body.setVelocityX(-150);
@@ -266,7 +293,7 @@ window.addEventListener('load', () => {
           player.setTexture('player_walk_left');
           player.anims.play('walk-left', true);
         }
-      } else if (cursors.right.isDown) {
+      } else if (cursors.right.isDown || keys.D.isDown) {
         player.body.setVelocityX(150);
         if (player.texture.key !== 'player_walk_right') {
           player.setTexture('player_walk_right');
@@ -274,7 +301,7 @@ window.addEventListener('load', () => {
         }
         currentDirection = 'right';
         moving = true;
-      } else if (cursors.up.isDown) {
+      } else if (cursors.up.isDown || keys.W.isDown) {
         player.body.setVelocityY(-150);
         if (player.texture.key !== 'player_walk_back') {
           player.setTexture('player_walk_back');
@@ -282,7 +309,7 @@ window.addEventListener('load', () => {
         }
         currentDirection = 'back';
         moving = true;
-      } else if (cursors.down.isDown) {
+      } else if (cursors.down.isDown || keys.S.isDown) {
         player.body.setVelocityY(150);
         if (player.texture.key !== 'player_walk_front') {
           player.setTexture('player_walk_front');
