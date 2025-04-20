@@ -58,6 +58,15 @@ window.addEventListener('load', () => {
         
         //interactive fireplace
         this.load.spritesheet('fireplace_on', '/assets/images/wizard/animations/fireplace.png', { frameWidth: 112, frameHeight: 112 });
+
+        // DOZY
+        this.load.image('dozy_sheet', '/assets/images/dozy/dozy_happy_wag.png');
+        this.load.spritesheet('dozy_happy', '/assets/images/dozy/dozy_happy_wag.png', { frameWidth: 80, frameHeight: 80 });
+        this.load.spritesheet('dozy_sitting_east', '/assets/images/dozy/dozy_sitting_east.png', { frameWidth: 80, frameHeight: 80 });
+        this.load.spritesheet('dozy_sleep_east', '/assets/images/dozy/dozy_sleep_west.png', { frameWidth: 80, frameHeight: 80 });
+        this.load.spritesheet('dozy_sleeping', '/assets/images/dozy/dozy_sleeping.png', { frameWidth: 80, frameHeight: 80 });
+        this.load.spritesheet('dozy_wag_east', '/assets/images/dozy/dozy_wag_east.png', { frameWidth: 80, frameHeight: 80 });
+        this.load.spritesheet('dozy_wag_tail_north', '/assets/images/dozy/dozy_wag_tail_north.png', { frameWidth: 80, frameHeight: 80 });
         
         // Load decoration image
         // this.load.image('decoration', '/assets/images/interior.png');
@@ -70,7 +79,9 @@ window.addEventListener('load', () => {
       // this.physics.world.setBoundsCollision();
 // this.physics.world.setBoundsCollision(left, right, up, down);
 
+
       // this.physics.world.setBounds(x, y, width, height, checkLeft, checkRight, checkUp, checkDown);
+
       
       cursors = this.input.keyboard.createCursorKeys();
       keys = this.input.keyboard.addKeys({
@@ -276,7 +287,18 @@ window.addEventListener('load', () => {
       });
       interactiveObj.anims.play('fireplace_on');
       // interactiveObj.anims.pause();
-
+      if (typeof USER !== "undefined" && USER.animal_settings.dozy === true) {
+        console.log("Dozy is enabled");
+        this.anims.create({
+          key: 'dozy_sleeping',
+          frames: this.anims.generateFrameNumbers('dozy_sleeping', { start: 0, end: 7 }),
+          frameRate: 4,
+          repeat: -1
+        });
+      
+        const dozy = this.physics.add.sprite(100, 100, 'dozy_sleeping');
+        dozy.anims.play('dozy_sleeping');
+      }
     }
   
     function update() {

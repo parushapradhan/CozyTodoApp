@@ -20,6 +20,7 @@
     "ejs": "^3.1.10",
     "excalibur": "^0.30.3",
     "express": "^5.1.0",
+    "express-session": "^1.18.1",
     "mongoose": "^8.13.1"
   },
   "devDependencies": {

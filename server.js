@@ -1,8 +1,10 @@
 const express = require("express");
+const session = require('express-session');
 const mongoose = require("mongoose");
 const fs = require("fs");
 const path = require("path");
 const usersPath = path.join(__dirname, "data", "users.json");
+
 
 require("dotenv").config();
 
@@ -19,20 +21,57 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
 // Connect to MongoDB (even though we're not using it yet)
-//mongoose
-//.connect(
-//`mongodb+srv://parushapradhan78:${process.env.DB_password}@cluster0webdev.ot1x2pr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0webdev`,
-//{
-//useNewUrlParser: true,
-//useUnifiedTopology: true,
-// }
-// )
-//.then(() => console.log("✅ MongoDB connected"))
-//.catch((err) => console.error(err));
+mongoose
+.connect(
+`mongodb+srv://parushapradhan78:${process.env.DB_password}@cluster0webdev.ot1x2pr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0webdev`,
+{
+useNewUrlParser: true,
+useUnifiedTopology: true,
+}
+)
+.then(() => console.log("✅ MongoDB connected"))
+.catch((err) => console.error(err));
 
+
+let user = {
+  "_id": {
+    "$oid": "67f8791968f64a134799872d"
+  },
+  "user_id": "user_001",
+  "sound_settings": {
+    "cicadas": 50,
+    "fire": 10,
+    "wind": 0,
+    "rain": 0,
+    "birds": 100
+  },
+  "animal_settings": {
+    "dozy": false,
+  },
+  "music_settings": {
+    "track": {
+      "track1": "off",
+      "track2": "on",
+      "track3": "on"
+    },
+    "level": 2,
+    "exp": 2000,
+    "tasks": [
+      {
+        "task_name": "sdfsdfsdF",
+        "status": "completed",
+        "visible": true
+      }
+    ]
+  },
+  "settings": {
+    "location": "room1",
+    "time_format": "24hrs"
+  }
+}
 // Routes
 app.get("/", (req, res) => {
-  res.render("pages/index");
+  res.render("pages/index", { user: user });
 });
 
 app.get("/signup", (req, res) => {
