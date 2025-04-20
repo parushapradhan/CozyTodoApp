@@ -46,7 +46,7 @@ let user = {
     "birds": 100
   },
   "animal_settings": {
-    "dozy": false,
+    "dozy": true,
   },
   "music_settings": {
     "track": {

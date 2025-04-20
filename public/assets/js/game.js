@@ -20,12 +20,7 @@ window.addEventListener('load', () => {
   
     function preload() {
         // --- Level JSON & Tileset Images ---
-        this.load.tilemapTiledJSON('level0', '/Level_0.json');
-        this.load.image('furniture', '/assets/images/wizard/Interior/furniture.png');
-        this.load.image('floors', '/assets/images/wizard/Interior/floors.png');
-
-
-      // this.load.spritesheet('Entity2Sprite', '/assets/sprites/entity2_anim.png', { frameWidth: 64, frameHeight: 64 });
+        this.load.image('bg', '/level_0.png');
       
       // --- Load other game assets ---
         //   PlAYER IDLE
@@ -67,20 +62,41 @@ window.addEventListener('load', () => {
         this.load.spritesheet('dozy_sleeping', '/assets/images/dozy/dozy_sleeping.png', { frameWidth: 80, frameHeight: 80 });
         this.load.spritesheet('dozy_wag_east', '/assets/images/dozy/dozy_wag_east.png', { frameWidth: 80, frameHeight: 80 });
         this.load.spritesheet('dozy_wag_tail_north', '/assets/images/dozy/dozy_wag_tail_north.png', { frameWidth: 80, frameHeight: 80 });
-        
-        // Load decoration image
-        // this.load.image('decoration', '/assets/images/interior.png');
-       // Load interactive object spritesheet
-        // this.load.spritesheet('interactive', '/assets/interactive.png', { frameWidth: 32, frameHeight: 32 });
+
     }
   
     function create() {
       // this.physics.world.setBounds(x, y, width, height);
       // this.physics.world.setBoundsCollision();
 // this.physics.world.setBoundsCollision(left, right, up, down);
-
+            // CREATE COLLISIONS 
+  
+            const obstacles = this.physics.add.staticGroup();
+            // Bed (top-left)
+            obstacles.create(45, 60).setSize(40, 60).setOffset(-20, -30).refreshBody();
+            obstacles.create(115, 150).setSize(80, 40).setOffset(-40, -20).refreshBody();
+            
+            //  Fireplace (top-middle)
+            obstacles.create(190, 100).setSize(70, 50).setOffset(-35, -25).refreshBody();
+            obstacles.create(230, 100).setSize(30, 30).setOffset(-15, -15).refreshBody();
+            
+            // Books at the foot of bed
+            obstacles.create(30, 110).setSize(20, 20).setOffset(-10, -10).refreshBody();
+            
+            //  Staircase (bottom-right)
+            obstacles.create(215, 235).setSize(50, 30).setOffset(-25, -15).refreshBody()
+    
+            // Top wall (across the entire top edge)
+            const topWall = this.physics.add.staticSprite(120, 40, null)  // Centered horizontally, very top
+            .setSize(256, 90)      // Full width, thin height
+            .setOrigin(0.5, 0)     // Align to top
+            .refreshBody();
+            obstacles.add(topWall);
+    
+   
 
       // this.physics.world.setBounds(x, y, width, height, checkLeft, checkRight, checkUp, checkDown);
+      this.add.image(0, 0, 'bg').setOrigin(0, 0);
 
       
       cursors = this.input.keyboard.createCursorKeys();
@@ -91,51 +107,7 @@ window.addEventListener('load', () => {
         W: Phaser.Input.Keyboard.KeyCodes.W
       });
 
-      // --- Create the Tilemap ---
-      const map = this.make.tilemap({ key: 'level0' });
-      const furnitureTileset = map.addTilesetImage('ROLEWORLD_WIZARD_INTERIOR_ASSET', 'furniture');
-      const floorsTileset = map.addTilesetImage('ROLEWORLD_WIZARD_INTERIOR_TILESET', 'floors');
-      map.createLayer('Floor_1', floorsTileset, 0, 0);
-      map.createLayer('Floor_2', floorsTileset, 0, 0);
-      map.createLayer('Furniture_1', furnitureTileset, 0, 0);
-      map.createLayer('Furniture_2', furnitureTileset, 0, 0);
-      map.createLayer('Furniture_3', furnitureTileset, 0, 0);
-      map.createLayer('Furniture_4', furnitureTileset, 0, 0);
-      this.cameras.main.setBackgroundColor('#e3c7c7');
-              // CREATE COLLISIONS 
   
-        const obstacles = this.physics.add.staticGroup();
-        // Bed (top-left)
-        obstacles.create(45, 60).setSize(40, 60).setOffset(-20, -30).refreshBody();
-        obstacles.create(115, 150).setSize(80, 40).setOffset(-40, -20).refreshBody();
-        
-        //  Fireplace (top-middle)
-        obstacles.create(190, 100).setSize(70, 50).setOffset(-35, -25).refreshBody();
-        obstacles.create(230, 100).setSize(30, 30).setOffset(-15, -15).refreshBody();
-        
-        // Books at the foot of bed
-        obstacles.create(30, 110).setSize(20, 20).setOffset(-10, -10).refreshBody();
-        
-        //  Staircase (bottom-right)
-        obstacles.create(215, 235).setSize(50, 30).setOffset(-25, -15).refreshBody()
-
-        // Top wall (across the entire top edge)
-        const topWall = this.physics.add.staticSprite(120, 40, null)  // Centered horizontally, very top
-        .setSize(256, 90)      // Full width, thin height
-        .setOrigin(0.5, 0)     // Align to top
-        .refreshBody();
-        obstacles.add(topWall);
-
-        // --- Create the Player ---
-        // Create the player using the idle front spritesheet as the initial texture.
-        player = this.physics.add.sprite(200, 150, 'player_idle_front');
-        player.setSize(32, 20).setOffset(2, 10);
-
-        player.setCollideWorldBounds(true);
-        this.physics.add.collider(player, obstacles);
-        this.physics.add.collider(player, topWall);
-
-
       // Create animations for walking.
       this.anims.create({
         key: 'walk-front',
@@ -249,34 +221,17 @@ window.addEventListener('load', () => {
       basement = this.physics.add.sprite(140, 220, 'animated_basement');
       basement.anims.play('animated_basement')
 
-      //chest
-      // this.anims.create({
-      //   key: 'animated_chest',
-      //   frames: this.anims.generateFrameNumbers('animated_chest', { start: 0, end: 5 }),
-      //   frameRate: 6,
-      //   repeat: -1
-      // });
-      // chest = this.physics.add.sprite(30, 10, 'animated_chest');
-      // chest.anims.play('animated_chest')
+    
 
-      
-      // --- Create the Draggable Decoration ---
-      // decoration = this.add.image(200, 200, 'decoration').setInteractive();
-      // this.input.setDraggable(decoration);
-      // this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
-      //   gameObject.x = dragX;
-      //   gameObject.y = dragY;
-      // });
   
-      // --- Create the Interactive Object ---
-      // interactiveObj = this.physics.add.sprite(200, 75, 'animated_fireplace');
-      // this.anims.create({
-      //   key: 'animated_fireplace',
-      //   frames: this.anims.generateFrameNumbers('animated_fireplace', { start: 0, end: 5 }),
-      //   frameRate: 6,
-      //   repeat: -1
-      // });
-      // interactiveObj.anims.play('animated_fireplace');
+          // --- Create the Player ---
+      // Create the player using the idle front spritesheet as the initial texture.
+      player = this.physics.add.sprite(200, 150, 'player_idle_front');
+      player.setSize(32, 20).setOffset(2, 10);
+
+      player.setCollideWorldBounds(true);
+      this.physics.add.collider(player, obstacles);
+      this.physics.add.collider(player, topWall);
 
       interactiveObj = this.physics.add.sprite(205, 60, 'fireplace_on');
       this.anims.create({
@@ -286,6 +241,7 @@ window.addEventListener('load', () => {
         repeat: -1
       });
       interactiveObj.anims.play('fireplace_on');
+
       // interactiveObj.anims.pause();
       if (typeof USER !== "undefined" && USER.animal_settings.dozy === true) {
         console.log("Dozy is enabled");
