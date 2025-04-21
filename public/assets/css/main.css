@@ -161,7 +161,6 @@ body {
   /* The top "title" section */
   background-color: var(--color-menu-header-bg);
   border: 2px solid var(--color-menu-header-border);
-  text-shadow: 2px 2px 2px var(--color-text-shadow);
   border-radius: 20px;
   text-align: center;
   font-weight: bold;
@@ -175,7 +174,6 @@ body {
   background-color: var(--color-menu-body-bg);
   border: 2px solid var(--color-menu-body-border);
   border-radius: 20px;
-  text-shadow: 2px 2px 2px var(--color-text-shadow);
   padding: 8px;
   font-size: 14px;
   line-height: 1.4;
@@ -290,3 +288,23 @@ body {
   justify-content: center;
 }
 
+.pixel-button { /* Optional: for pixel-style font */
+  font-size: 14px;
+  background: #f5f0ea;
+  border: 3px solid #9b8c7d;
+  border-radius: 12px;
+  padding: 10px 30px;
+  color: #333;
+  box-shadow: 0 4px #b0a090;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  image-rendering: pixelated; /* Helps with crisp rendering */
+  transition: transform 0.1s ease;
+}
+
+.pixel-button:hover {
+  transform: translateY(1px);
+  box-shadow: 0 2px #b0a090;
+}

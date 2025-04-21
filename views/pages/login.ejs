@@ -1,7 +1,54 @@
 <%- include('../partials/header'); %>
+<style>
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center; /* horizontal center */
+  align-items: center;     /* vertical center */
+  background: url('/assets/images/login-export.png') no-repeat center center;
+  background-size: cover;
+}
+
+.auth-container {
+  text-align: center;
+}
+#login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+input {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 12px auto;
+  padding: 14px 12px;
+  font-size: 16px;
+  background-color: #fdf6e3;
+  border: 2px solid #333;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 2px #fff;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+input:focus {
+  border-color: #007acc;
+  background-color: #ffffff;
+}
+
+
+</style>
   <body>
     <div class="auth-container">
-      <h2>Login</h2>
+      <p class="border-text" style="font-size: 56px;" > COZY TODO GAME</p>
+      <h1 class="border-text">Login</h1>
       <form id="login-form" method="POST" action="/login">
         <input name="username" placeholder="Username" required />
         <input
@@ -10,14 +57,19 @@
           placeholder="Password"
           required
         />
-        <button type="submit">Log In</button>
+        <div> 
+          <button type="submit" class="pixel-button">Log In</button>
+          <a href="/signup" class="pixel-button">Create Account</a>
+        </div>
+
       </form>
 
       <div id="login-loading-msg" style="display: none">
         ☕ Logging you in... hang tight.
       </div>
 
-      <a href="/signup">Create Account</a>
+
+    
       <a href="/forgotPassword">Forgot Password?</a>
     </div>
 

@@ -19,6 +19,13 @@ app.set("view engine", "ejs");
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json());
+app.use(session({
+  secret: `${process.env.SECRET_KEY}`, // Change this to a strong secret
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // use true if using HTTPS
+}));
 
 // Connect to MongoDB (even though we're not using it yet)
 
@@ -47,7 +54,7 @@ let user = {
     "birds": 100
   },
   "character": "wizard",
-  "animal": "henrietta",
+  "animal": "calico",
   "music_settings": {
     "track": {
       "track1": "off",
@@ -71,7 +78,10 @@ let user = {
 }
 // Routes
 app.get("/", (req, res) => {
-  res.render("pages/index", { user: user });
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  res.render("pages/index", { user: req.session.user });
 });
 
 app.get("/signup", (req, res) => {
@@ -114,7 +124,7 @@ app.post("/login", (req, res) => {
   if (!user) {
     return res.send("❌ Invalid credentials. <a href='/login'>Try again</a>");
   }
-
+  req.session.user = user;
   res.redirect("/"); // redirect to main game page
 });
 
@@ -161,17 +171,30 @@ app.post("/admin/update-level", (req, res) => {
 
 
 app.post('/updateUserSettings', (req, res) => {
-  const updatedUser = req.body;
-  let users = JSON.parse(fs.readFileSync(usersPath));
-  const index = users.findIndex(u => u.email === updatedUser.email);
-  if (index !== -1) {
-    users[index] = updatedUser;
-    fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
-    res.json({ success: true });
-  } else {
-    res.status(404).json({ error: 'User not found' });
-  }
+  // if (!req.session.user) {
+  //   return res.status(401).json({ error: 'User not logged in' });
+  // }
+
+  // const sessionEmail = req.session.user.email; // or use user_id if that's your unique key
+  // const updatedData = req.body;
+
+  // let users = JSON.parse(fs.readFileSync(usersPath));
+  // const index = users.findIndex(u => u.email === sessionEmail);
+
+  // if (index !== -1) {
+  //   // Only update allowed fields
+  //   users[index] = { ...users[index], ...updatedData };
+
+  //   fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
+  //   req.session.user = users[index]; // Update session with latest user info
+  //   res.json({ success: true });
+  // } else {
+  //   res.status(404).json({ error: 'User not found' });
+  // }
+  console.log("User settings updated:", req.body);
 });
+
+
 
 
 app.use(express.urlencoded({ extended: true }));
