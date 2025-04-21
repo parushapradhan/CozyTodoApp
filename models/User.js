@@ -1,8 +1,31 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const messageSchema = new mongoose.Schema({
-  name: String,
-  message: String
+const UserSchema = new mongoose.Schema({
+  username: { type: String, required: true,unique: true },
+  password: { type: String, required: true },
+  sound_settings: {
+    cicadas: Number,
+    fire: Number,
+    wind: Number,
+    rain: Number,
+    birds: Number
+  },
+  character: String,
+  animal: String,
+  music_settings: {
+    track: {
+      track1: String,
+      track2: String,
+      track3: String
+    },
+    level: Number,
+    exp: Number,
+    tasks: Array
+  },
+  settings: {
+    location: String,
+    time_format: String
+  }
 });
 
-module.exports = mongoose.model('Users', messageSchema);
+module.exports = mongoose.model("User", UserSchema);
