@@ -112,7 +112,7 @@ export class Kitchen extends Phaser.Scene {
               this.player = new Player(this, 100, 150); // x, y coordinates
   
           // Optional: add collisions or interactions
-          this.physics.add.collider(this.player, this.obstacles);
+        //   this.physics.add.collider(this.player, this.obstacles);
       }
   
       update() {
