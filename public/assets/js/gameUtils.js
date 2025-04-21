@@ -47,5 +47,72 @@ export function loadPlayerAssets(scene) {
   
 
 export function loadAnimalAssets(scene) {
+    if (typeof USER !== "undefined" && USER.animal === 'dozy') {
+        scene.load.spritesheet('dozy_sleep_east', '/assets/images/animals/dozy_sleeping.png', { frameWidth: 80, frameHeight: 80 });
+    }
+    if (typeof USER !== "undefined" && USER.animal === 'henrietta') {
+        scene.load.spritesheet('henrietta_sleep_east', '/assets/images/animals/henrietta.png', { frameWidth: 80, frameHeight: 80 });
+    }
+    if (typeof USER !== "undefined" && USER.animal === 'capybara') {
+        scene.load.spritesheet('capybara_sleep_east', '/assets/images/animals/capybara.png', { frameWidth: 80, frameHeight: 80 });
+    }
+    if (typeof USER !== "undefined" && USER.animal === 'calico') {
+        scene.load.spritesheet('calico_sleep_east', '/assets/images/animals/calico_cat.png', { frameWidth: 80, frameHeight: 80 });
+    }
+    if (typeof USER !== "undefined" && USER.animal === 'siamese') {
+        scene.load.spritesheet('siamese_sleep_east', '/assets/images/animals/siamese_cat.png', { frameWidth: 80, frameHeight: 80 });
+    }
+}
 
+export function playAnimalAnimation(scene) {
+    if (typeof USER !== "undefined" && USER.animal === 'dozy') {
+        scene.anims.create({
+        key: 'dozy_sleeping',
+        frames: this.anims.generateFrameNumbers('dozy_sleeping', { start: 0, end: 7 }),
+        frameRate: 4,
+        repeat: -1
+        });
+        const dozy = scene.physics.add.sprite(100, 100, 'dozy_sleeping');
+        dozy.anims.play('dozy_sleeping');
+    }
+    if (typeof USER !== "undefined" && USER.animal === 'henrietta') {
+        scene.anims.create({
+        key: 'henrietta_sleep_east',
+        frames: this.anims.generateFrameNumbers('henrietta_sleep_east', { start: 0, end: 7 }),
+        frameRate: 4,
+        repeat: -1
+        });
+        const henrietta = scene.physics.add.sprite(100, 100, 'henrietta_sleep_east');
+        henrietta.anims.play('henrietta_sleep_east');
+    }
+    if (typeof USER !== "undefined" && USER.animal === 'calico') {
+        scene.anims.create({
+        key: 'calico_sleep_east',
+        frames: this.anims.generateFrameNumbers('calico_sleep_east', { start: 0, end: 7 }),
+        frameRate: 4,
+        repeat: -1
+        });
+        const calico = scene.physics.add.sprite(100, 100, 'calico_sleep_east');
+        calico.anims.play('calico_sleep_east');
+    }
+    if (typeof USER !== "undefined" && USER.animal === 'siamese') {
+        scene.anims.create({
+        key: 'siamese_sleep_east',
+        frames: this.anims.generateFrameNumbers('siamese_sleep_east', { start: 0, end: 7 }),
+        frameRate: 4,
+        repeat: -1
+        });
+        const siamese = scene.physics.add.sprite(100, 100, 'siamese_sleep_east');
+        siamese.anims.play('dozy_sleeping');
+    }
+    if (typeof USER !== "undefined" && USER.animal === 'capybara') {
+        scene.anims.create({
+        key: 'capybara_sleep_east',
+        frames: this.anims.generateFrameNumbers('capybara_sleep_east', { start: 0, end: 7 }),
+        frameRate: 4,
+        repeat: -1
+        });
+        const capybara = scene.physics.add.sprite(100, 100, 'capybara_sleep_east');
+        capybara.anims.play('capybara_sleep_east');
+    }
 }

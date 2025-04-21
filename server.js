@@ -21,9 +21,10 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
 // Connect to MongoDB (even though we're not using it yet)
+
 mongoose
 .connect(
-`mongodb+srv://parushapradhan78:${process.env.DB_password}@cluster0webdev.ot1x2pr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0webdev`,
+`${process.env.DB_URI}`,
 {
 useNewUrlParser: true,
 useUnifiedTopology: true,
@@ -45,10 +46,8 @@ let user = {
     "rain": 0,
     "birds": 100
   },
-  "character": "ghost",
-  "animal_settings": {
-    "dozy": true,
-  },
+  "character": "wizard",
+  "animal": "henrietta",
   "music_settings": {
     "track": {
       "track1": "off",
@@ -159,6 +158,21 @@ app.post("/admin/update-level", (req, res) => {
   }
   res.redirect("/admin");
 });
+
+
+app.post('/updateUserSettings', (req, res) => {
+  const updatedUser = req.body;
+  let users = JSON.parse(fs.readFileSync(usersPath));
+  const index = users.findIndex(u => u.email === updatedUser.email);
+  if (index !== -1) {
+    users[index] = updatedUser;
+    fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
+    res.json({ success: true });
+  } else {
+    res.status(404).json({ error: 'User not found' });
+  }
+});
+
 
 app.use(express.urlencoded({ extended: true }));
 

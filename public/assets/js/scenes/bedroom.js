@@ -1,4 +1,4 @@
-import { loadPlayerAssets } from '../gameUtils.js';
+import { loadPlayerAssets, loadAnimalAssets ,playAnimalAnimation} from '../gameUtils.js';
 import { Player } from '../objects/Player.js';
 
 let cursors, keys, keyE, player, interactiveObj, decoration;
@@ -26,16 +26,9 @@ export class Bedroom extends Phaser.Scene {
           frameWidth: 24,
           frameHeight: 24
         });
-        
 
         // DOZY
-        this.load.image('dozy_sheet', '/assets/images/dozy/dozy_happy_wag.png');
-        this.load.spritesheet('dozy_happy', '/assets/images/dozy/dozy_happy_wag.png', { frameWidth: 80, frameHeight: 80 });
-        this.load.spritesheet('dozy_sitting_east', '/assets/images/dozy/dozy_sitting_east.png', { frameWidth: 80, frameHeight: 80 });
-        this.load.spritesheet('dozy_sleep_east', '/assets/images/dozy/dozy_sleep_west.png', { frameWidth: 80, frameHeight: 80 });
-        this.load.spritesheet('dozy_sleeping', '/assets/images/dozy/dozy_sleeping.png', { frameWidth: 80, frameHeight: 80 });
-        this.load.spritesheet('dozy_wag_east', '/assets/images/dozy/dozy_wag_east.png', { frameWidth: 80, frameHeight: 80 });
-        this.load.spritesheet('dozy_wag_tail_north', '/assets/images/dozy/dozy_wag_tail_north.png', { frameWidth: 80, frameHeight: 80 });
+        loadAnimalAssets(this)
 
     }
   
@@ -86,18 +79,7 @@ export class Bedroom extends Phaser.Scene {
             let fireplace = this.physics.add.sprite(167, 79, 'animated_fireplace');
             fireplace.anims.play('animated_fireplace')
 
-            if (typeof USER !== "undefined" && USER.animal_settings.dozy === true) {
-                console.log("Dozy is enabled");
-                this.anims.create({
-                key: 'dozy_sleeping',
-                frames: this.anims.generateFrameNumbers('dozy_sleeping', { start: 0, end: 7 }),
-                frameRate: 4,
-                repeat: -1
-                });
-            
-                const dozy = this.physics.add.sprite(100, 100, 'dozy_sleeping');
-                dozy.anims.play('dozy_sleeping');
-            }
+            playAnimalAnimation(this);
             this.player = new Player(this, 100, 150); // x, y coordinates
 
         // Optional: add collisions or interactions
