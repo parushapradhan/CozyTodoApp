@@ -45,6 +45,7 @@ let user = {
     "rain": 0,
     "birds": 100
   },
+  "character": "wizard",
   "animal_settings": {
     "dozy": true,
   },
