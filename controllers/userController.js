@@ -48,13 +48,19 @@ exports.signupUser = async (req, res) => {
 };
 
 // POST /login
-exports.loginUser = (req, res) => {
+exports.loginUser = async (req, res) => {
   const { username, password } = req.body;
-  const users = JSON.parse(fs.readFileSync(usersPath));
-  const user = users.find(u => u.username === username && u.password === password);
-  if (!user) return res.send("❌ Invalid credentials. <a href='/login'>Try again</a>");
-  req.session.user = user;
-  res.redirect('/');
+  try {
+    const user = await User.findOne({ username });
+    if (!user || user.password !== password) {
+      return res.send("❌ Invalid credentials. <a href='/login'>Try again</a>");
+    }
+    req.session.user = user;
+    res.redirect('/');
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(500).send("Something went wrong");
+  }
 };
 
 // POST /forgotPassword

@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Assume USER is globally available
+    console.log(USER)
     const dozyCheckbox = document.getElementById('toggle-dozy');
     const henCheckbox = document.getElementById('toggle-henrietta');
   

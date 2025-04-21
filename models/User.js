@@ -17,11 +17,11 @@ const UserSchema = new mongoose.Schema({
       track1: String,
       track2: String,
       track3: String
-    },
-    level: Number,
-    exp: Number,
-    tasks: Array
+    }
   },
+  level: Number,
+  exp: Number,
+  tasks: Array,
   settings: {
     location: String,
     time_format: String
