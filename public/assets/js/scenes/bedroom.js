@@ -3,6 +3,7 @@ import { Player } from '../objects/Player.js';
 
 let cursors, keys, keyE, player, interactiveObj, decoration;
 let blue, cauldron, candle1, basement;
+let fireplace, fireplaceOn = true;
 export class Bedroom extends Phaser.Scene {
     constructor() {
       super('Bedroom');
@@ -18,8 +19,7 @@ export class Bedroom extends Phaser.Scene {
         this.load.spritesheet('animated_blue_book', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_ANIMATED INTERIOR_BLUE BOOK.png', { frameWidth: 16, frameHeight: 16 });
         this.load.spritesheet('animated_fireplace', '/assets/images/wizard/animations/ROLEWORLD_WIZARD_ANIMATED INTERIOR_FIREPLACE.png', { frameWidth: 48, frameHeight: 30 });
         //interactive fireplace
-        // this.load.spritesheet('fireplace_on', '/assets/images/wizard/animations/fireplace.png', { frameWidth: 112, frameHeight: 112 });
-
+        this.load.image('fireplace_off', '/assets/images/fireplace/fireplace_off.png');
 
         //WINDOW
         this.load.spritesheet('windows', '/assets/images/24x24_windows_orange.png', {
@@ -76,7 +76,7 @@ export class Bedroom extends Phaser.Scene {
                 frameRate: 6,
                 repeat: -1
             });
-            let fireplace = this.physics.add.sprite(167, 79, 'animated_fireplace');
+            fireplace = this.physics.add.sprite(167, 79, 'animated_fireplace');
             fireplace.anims.play('animated_fireplace')
 
             playAnimalAnimation(this);
@@ -90,6 +90,22 @@ export class Bedroom extends Phaser.Scene {
         this.player.update();
         if (this.player.x >= 153 && this.player.y >= 188) {
             this.scene.start('Kitchen'); // replace with your target room key
+          }
+          if (
+            Phaser.Math.Distance.Between(this.player.x, this.player.y, fireplace.x, fireplace.y) < 40 &&
+            Phaser.Input.Keyboard.JustDown(this.player.keys.E)
+          ) {
+            if (fireplaceOn) {
+              fireplaceOn = false;
+              fireplace.setTexture('fireplace_off');
+              fireplace.anims.stop();
+            //   if (fireplaceSound) fireplaceSound.stop();
+            } else {
+              fireplaceOn = true;
+              fireplace.setTexture('animated_fireplace');
+              fireplace.anims.play('animated_fireplace');
+            //   if (fireplaceSound) fireplaceSound.play();
+            }
           }
       }
   

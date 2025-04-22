@@ -67,13 +67,13 @@ export function loadAnimalAssets(scene) {
 export function playAnimalAnimation(scene) {
     if (typeof USER !== "undefined" && USER.animal === 'dozy') {
         scene.anims.create({
-        key: 'dozy_sleeping',
-        frames: scene.anims.generateFrameNumbers('dozy_sleeping', { start: 0, end: 7 }),
+        key: 'dozy_sleep_east',
+        frames: scene.anims.generateFrameNumbers('dozy_sleep_east', { start: 0, end: 7 }),
         frameRate: 4,
         repeat: -1
         });
-        const dozy = scene.physics.add.sprite(100, 100, 'dozy_sleeping');
-        dozy.anims.play('dozy_sleeping');
+        const dozy = scene.physics.add.sprite(100, 100, 'dozy_sleep_east');
+        dozy.anims.play('dozy_sleep_east');
     }
     if (typeof USER !== "undefined" && USER.animal === 'henrietta') {
         scene.anims.create({

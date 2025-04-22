@@ -16,7 +16,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         W: Phaser.Input.Keyboard.KeyCodes.W,
         A: Phaser.Input.Keyboard.KeyCodes.A,
         S: Phaser.Input.Keyboard.KeyCodes.S,
-        D: Phaser.Input.Keyboard.KeyCodes.D
+        D: Phaser.Input.Keyboard.KeyCodes.D,
+        E: Phaser.Input.Keyboard.KeyCodes.E,
       });
   
       this.currentDirection = 'front';

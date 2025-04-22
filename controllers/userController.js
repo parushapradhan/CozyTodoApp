@@ -104,7 +104,21 @@ exports.updateLevel = (req, res) => {
   res.redirect("/admin");
 };
 
-exports.updateSettings = (req, res) => {
-  console.log("📝 Settings update received:", req.body);
-  res.json({ success: true });
+exports.updateSettings = async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ error: 'Not logged in' });
+  }
+
+  try {
+    const updatedFields = req.body;
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: req.session.user._id },
+      { $set: updatedFields },
+      { new: true } 
+    );
+    req.session.user = updatedUser;
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
 };
