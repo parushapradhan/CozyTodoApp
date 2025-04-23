@@ -48,16 +48,12 @@
   <body>
     <div class="auth-container">
       <h2>Create Account</h2>
-      <form id="signup-form" method="POST" action="/signup">
-        <input name="username" placeholder="Username" required />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Sign Up</button>
-      </form>
+<form id="signup-form" method="POST" action="/signup">
+  <input name="username" placeholder="Username" required />
+  <input name="email" type="email" placeholder="Email" required />
+  <input name="password" type="password" placeholder="Password" required />
+  <button type="submit">Sign Up</button>
+</form>
 
       <div id="signup-loading-msg" style="display: none">
         🌸 Creating your cozy account...
