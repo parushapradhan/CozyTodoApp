@@ -142,6 +142,17 @@ exports.forgotPasswordSubmit = (req, res) => {
   res.redirect("/login");
 };
 
+exports.logoutUser = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("❌ Error destroying session:", err);
+      return res.status(500).send("Could not log out");
+    }
+    res.clearCookie("connect.sid");
+    res.redirect("/login");
+  });
+};
+
 // ADMIN
 exports.adminPanel = (req, res) => {
   const users = JSON.parse(fs.readFileSync(usersPath));
