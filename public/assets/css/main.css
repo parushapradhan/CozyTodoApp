@@ -1,6 +1,4 @@
-
-
-@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 :root {
   --color-black: #000;
@@ -28,11 +26,10 @@
   --color-text-shadow: rgba(0, 0, 0, 0.4);
   --color-todo-input-border: #ccc;
   --color-todo-item-border: #ddd;
-  --font-size:16px;
-  --font-family: 'Pixelify Sans', sans-serif;
+  --font-size: 16px;
+  --font-family: "Pixelify Sans", sans-serif;
   --border-radius: 20px;
 }
-
 
 * {
   margin: 0;
@@ -71,7 +68,7 @@ body {
   /* top: 20px; */
   right: 1px;
   width: 300px;
-  height:113px;
+  height: 113px;
   background-color: var(--color-top-panel-bg);
   border: 2px solid var(--color-top-panel-border);
   border-radius: 8px;
@@ -80,8 +77,6 @@ body {
   box-sizing: border-box;
   color: var(--color-top-panel-text);
 }
-
-
 
 .top-right-panel button {
   font-size: 12px;
@@ -134,8 +129,6 @@ body {
   font-size: 14px;
   color: var(--color-filename);
 }
-
-
 
 .toggle-menu {
   display: none;
@@ -195,13 +188,16 @@ body {
 /* Todo container over the image */
 .todo-container {
   position: absolute;
-  top: 20px; /* Adjust vertical position */
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
-  /* Semi-transparent white background for readability */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Pushes logout to the bottom */
   background: var(--color-menu-body-bg);
-  padding: 10px;
+  padding: 20px;
   border-radius: 8px;
   box-sizing: border-box;
 }
@@ -238,6 +234,20 @@ body {
   background: var(--color-add-btn-bg-hover);
 }
 
+.logoutBtn {
+  width: 100%;
+  padding: 10px;
+  background: var(--color-add-btn-bg);
+  color: var(--color-white);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.logoutBtn:hover {
+  background: var(--color-add-btn-bg-hover);
+}
 
 .book-container {
   width: 900px; /* Adjust width as needed */
@@ -250,28 +260,22 @@ body {
   border-radius: 8px;
 }
 
-
 /* clock */
-.calendar{
+.calendar {
   z-index: 100;
   right: 1px;
-  background-image: url('/assets/images/calendar.png');
+  background-image: url("/assets/images/calendar.png");
   height: 113px;
   text-align: center;
   width: 80px;
   position: absolute;
 }
 
-.border-text{
+.border-text {
   color: white;
-  text-shadow: 
-    -1px -1px 0 black,
-     1px -1px 0 black,
-    -1px  1px 0 black,
-     1px  1px 0 black;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black;
 }
-
-
 
 /* Modal background overlay */
 .modal {
@@ -288,7 +292,8 @@ body {
   justify-content: center;
 }
 
-.pixel-button { /* Optional: for pixel-style font */
+.pixel-button {
+  /* Optional: for pixel-style font */
   font-size: 14px;
   background: #f5f0ea;
   border: 3px solid #9b8c7d;
