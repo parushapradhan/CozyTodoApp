@@ -2,6 +2,9 @@ const fs = require("fs");
 const path = require("path");
 const User = require("../models/User");
 const usersPath = path.join(__dirname, "../data/users.json");
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
+const bcrypt = require("bcrypt");
 
 // GET /
 exports.index = (req, res) => {
@@ -25,11 +28,14 @@ exports.signupUser = async (req, res) => {
       return res.send(
         "❌ User already exists! <a href='/signup'>Try again</a>"
       );
-
+    const token = crypto.randomBytes(32).toString("hex");
+    const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       username,
-      password,
+      password: hashedPassword,
       email,
+      isVerified: false, // NEW
+      verificationToken: token, // NEW
       sound_settings: {
         cicadas: 50,
         fire: 10,
@@ -52,10 +58,58 @@ exports.signupUser = async (req, res) => {
     });
 
     await newUser.save();
-    res.redirect("/login");
+    const verificationLink = `http://localhost:8080/verify-email?token=${token}`;
+
+    const transporter = nodemailer.createTransport({
+      host: process.env.MAILTRAP_HOST,
+      port: parseInt(process.env.MAILTRAP_PORT),
+      auth: {
+        user: process.env.MAILTRAP_USER,
+        pass: process.env.MAILTRAP_PASS,
+      },
+    });
+    await transporter
+      .sendMail({
+        from: "no-reply@cozy.com",
+        to: email,
+        subject: "Verify your account",
+        html: `<p>Click <a href="${verificationLink}">here</a> to verify your email.</p>`,
+      })
+      .then((info) => {
+        console.log("✅ Email sent:", info);
+      })
+      .catch((err) => {
+        console.error("❌ Email failed:", err);
+      });
+
+    res.send("📨 A verification email has been sent. Please check your inbox.");
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal server error");
+  }
+};
+
+exports.verifyUser = async (req, res) => {
+  const { token } = req.query; // 👈 NOT req.params
+  console.log("🔎 Received token:", token);
+
+  try {
+    const user = await User.findOne({ verificationToken: token });
+    if (!user) {
+      return res.send("❌ Invalid or expired verification link.");
+    }
+
+    user.verified = true;
+    user.verificationToken = undefined;
+    await user.save();
+    console.log("✅ User verified:", user.username);
+
+    res.send(
+      "✅ Your account has been verified! You can now <a href='/login'>login</a>."
+    );
+  } catch (err) {
+    console.error("Verification error:", err);
+    res.status(500).send("Something went wrong during verification.");
   }
 };
 
@@ -64,9 +118,16 @@ exports.loginUser = async (req, res) => {
   const { username, password } = req.body;
   try {
     const user = await User.findOne({ username });
-    if (!user || user.password !== password) {
-      return res.send("❌ Invalid credentials. <a href='/login'>Try again</a>");
+    if (!user) {
+      return res.send("❌ Invalid User ID. <a href='/login'>Try again</a>");
     }
+    if (!user.verified) {
+      return res.send(
+        "🚫 Please verify your email before logging in. <a href='/login'>Back to login</a>"
+      );
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.send("Invalid password!");
     req.session.user = user;
     res.redirect("/");
   } catch (err) {
