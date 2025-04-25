@@ -1,64 +1,72 @@
-
-  /* Container that holds the sidebar + content */
-  .settings-container {
-    display: flex;
-    max-width: 40%;
-    margin: 20px;
-  }
-  /* Right content area */
-  .content {
-    flex: 1;
-    padding: 1rem;
-  }
-  .content h2 {
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-  }
-  /* To-do input area */
-  .todo-input {
-    display: flex;
-    margin-bottom: 1rem;
-  }
-  .todo-input input[type="text"] {
-    flex: 1;
-    padding: 0.5rem;
-    border: 2px solid #B2A6B5;
-    border-radius: 4px;
-    background-color: #ffe6ec;
-    font-size: 1rem;
-  }
-  .todo-input button {
-    margin-left: 0.5rem;
-    padding: 0.5rem 1rem;
-    border: 2px solid #000;
-    border-radius: 4px;
-    background-color: #f8bfc9;
-    font-size: 1rem;
-    cursor: pointer;
-  }
-  /* To-do list items */
-  .todo-list {
-    list-style: none;
-    padding-left: 0;
-  }
-  .todo-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    background-color: #ffe6ec;
-    border: 2px solid #000;
-    border-radius: 4px;
-    padding: 0.5rem;
-    cursor: pointer;
-  }
-  .todo-item input[type="checkbox"] {
-    margin-right: 0.5rem;
-    accent-color: #6ecc6e;
-    width: 16px;
-    height: 16px;
-  }
-  /* Strike-through effect for completed tasks */
-  .todo-item.completed span {
-    text-decoration: line-through;
-    opacity: 0.6;
-  }
+/* Container that holds the sidebar + content */
+.settings-container {
+  display: flex;
+  max-width: 40%;
+  margin: 20px;
+}
+/* Right content area */
+.content {
+  flex: 1;
+  padding: 1rem;
+}
+.content h2 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+/* To-do input area */
+.todo-input {
+  display: flex;
+  margin-bottom: 1rem;
+}
+.todo-input input[type="text"] {
+  flex: 1;
+  padding: 0.5rem;
+  border: 2px solid #b2a6b5;
+  border-radius: 4px;
+  background-color: #ffe6ec;
+  font-size: 1rem;
+}
+.todo-input button {
+  margin-left: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid #000;
+  border-radius: 4px;
+  background-color: #f8bfc9;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.logoutBtn {
+  margin-left: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid #000;
+  border-radius: 4px;
+  background-color: #f8bfc9;
+  font-size: 1rem;
+  cursor: pointer;
+}
+/* To-do list items */
+.todo-list {
+  list-style: none;
+  padding-left: 0;
+}
+.todo-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  background-color: #ffe6ec;
+  border: 2px solid #000;
+  border-radius: 4px;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+.todo-item input[type="checkbox"] {
+  margin-right: 0.5rem;
+  accent-color: #6ecc6e;
+  width: 16px;
+  height: 16px;
+}
+/* Strike-through effect for completed tasks */
+.todo-item.completed span {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
