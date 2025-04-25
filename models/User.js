@@ -4,6 +4,8 @@ const UserSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   email: { type: String, required: true, unique: true },
+  verified: { type: Boolean, default: false },
+  verificationToken: { type: String },
   sound_settings: {
     cicadas: Number,
     fire: Number,
