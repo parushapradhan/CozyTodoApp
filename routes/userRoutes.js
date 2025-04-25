@@ -14,6 +14,8 @@ router.get("/login", userController.loginForm);
 router.get("/forgotPassword", userController.forgotPasswordForm);
 router.post("/signup", userController.signupUser);
 router.post("/login", userController.loginUser);
+router.post("/logout", userController.logoutUser);
+
 router.post("/forgotPassword", userController.forgotPasswordSubmit);
 router.post("/updateUserSettings", userController.updateSettings);
 
