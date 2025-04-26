@@ -1,0 +1,38 @@
+<%- include('../partials/header'); %>
+<div class="auth-container">
+  <h2>👑 Admin Panel</h2>
+
+  <% users.forEach(user => { %>
+  <div class="user-card">
+    <h3><%= user.username %> (Level <%= user.level %>)</h3>
+    <p><strong>Email:</strong> <%= user.email %></p>
+    <p><strong>XP:</strong> <%= user.xp %></p>
+
+    <form action="/admin/delete-user" method="POST" style="display: inline">
+      <input type="hidden" name="email" value="<%= user.email %>" />
+      <button type="submit">🗑️ Delete User</button>
+    </form>
+
+    <form action="/admin/update-level" method="POST">
+      <input type="hidden" name="email" value="<%= user.email %>" />
+      <input type="number" name="level" placeholder="New Level" required />
+      <button type="submit">🔼 Update Level</button>
+    </form>
+
+    <p><strong>Tasks:</strong></p>
+    <ul>
+      <% user.tasks.forEach(task => { %>
+      <li>
+        <%= task %>
+        <form action="/admin/remove-task" method="POST" style="display: inline">
+          <input type="hidden" name="email" value="<%= user.email %>" />
+          <input type="hidden" name="task" value="<%= task %>" />
+          <button type="submit">❌</button>
+        </form>
+      </li>
+      <% }) %>
+    </ul>
+    <hr />
+  </div>
+  <% }) %>
+</div>

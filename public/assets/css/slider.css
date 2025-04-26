@@ -1,0 +1,66 @@
+/* Music Player */
+/* Music sliders container */
+.music-sliders {
+  margin-bottom: 10px;
+}
+
+.slider-control {
+  margin-bottom: 5px;
+}
+
+.slider-control label {
+  font-size: 10px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* Custom slider styling with pink colors */
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background: var(--color-range-track); /* Track color */
+  border-radius: 5px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--color-range-thumb); /* Thumb color */
+  border: 2px solid var(--color-range-thumb-border);
+  border-radius: 20%;
+  cursor: pointer;
+  margin-top: -4px; /* Centers thumb on track */
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: var(--color-range-thumb);
+  border: 2px solid var(--color-range-thumb-border);
+  border-radius: 20%;
+  cursor: pointer;
+}
+
+/* Toggle buttons styling */
+.menu-toggle-buttons {
+  bottom: 1px;
+  right: 1px;
+  position: absolute;
+}
+
+.menu-toggle-buttons button {
+  font-size: 12px;
+  padding: 4px 6px;
+  cursor: pointer;
+  background-color: var(--color-menu-bg); 
+  border : 2px solid var(--color-menu-border);
+  border-radius: 8px;
+}
+
+
+.control{
+    padding: 5px;
+}

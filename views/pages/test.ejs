@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Pokemon Secret Base</title>
+  <style>
+    /* Style the canvas with a border so you can see its limits */
+    canvas {
+      display: block;
+      margin: 0 auto;
+      border: 1px solid #000;
+      background-color: #000;
+    }
+  </style>
+</head>
+<body>
+  <!-- The Canvas element for our game -->
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+  
+  <script>
+    // Get the canvas and context
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Keep track of keyboard input
+    const keys = {};
+
+    // Load images for background, player, and decoration
+    const backgroundImage = new Image();
+    backgroundImage.src = 'assets/images/Level_0.png';  // Your secret base background
+
+    const playerImage = new Image();
+    playerImage.src = 'assets/images/character.png'; // Spritesheet (assumes frames in one row)
+
+    const decorationImage = new Image();
+    decorationImage.src = 'assets/images/interior.png'; // An item to decorate the base
+
+    // Define the player object
+    const player = {
+      x: 400,
+      y: 300,
+      speed: 150,        // pixels per second
+      width: 16,
+      height: 32,
+      frameIndex: 0,
+      frameCount: 4,     // number of frames in the spritesheet
+      frameTime: 0,      // timer to switch frames
+      frameInterval: 200, // milliseconds per frame
+      moving: false,
+    };
+
+    // Define a decoration object that can be dragged
+    const decoration = {
+      x: 200,
+      y: 200,
+      width: 32,
+      height: 32,
+      dragging: false,
+    };
+
+    // For the game loop timing
+    let lastTime = performance.now();
+
+    // --- Keyboard event listeners ---
+    document.addEventListener('keydown', (e) => {
+      keys[e.key] = true;
+    });
+
+    document.addEventListener('keyup', (e) => {
+      keys[e.key] = false;
+    });
+
+    // --- Mouse events for dragging the decoration ---
+    let offsetX, offsetY;
+    canvas.addEventListener('mousedown', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      // Check if the click is within the bounds of the decoration
+      if (
+        mouseX >= decoration.x &&
+        mouseX <= decoration.x + decoration.width &&
+        mouseY >= decoration.y &&
+        mouseY <= decoration.y + decoration.height
+      ) {
+        decoration.dragging = true;
+        offsetX = mouseX - decoration.x;
+        offsetY = mouseY - decoration.y;
+      }
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (decoration.dragging) {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        // Update the decoration's position
+        decoration.x = mouseX - offsetX;
+        decoration.y = mouseY - offsetY;
+      }
+    });
+
+    canvas.addEventListener('mouseup', () => {
+      decoration.dragging = false;
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      decoration.dragging = false;
+    });
+
+    // --- The game loop ---
+    function gameLoop(timestamp) {
+      const dt = (timestamp - lastTime) / 1000; // Delta time in seconds
+      lastTime = timestamp;
+
+      update(dt);
+      render();
+      
+      requestAnimationFrame(gameLoop);
+    }
+
+    // --- Update game state ---
+    function update(dt) {
+      let isMoving = false;
+
+      // Move the player based on arrow keys.
+      if (keys['ArrowLeft']) {
+        player.x -= player.speed * dt;
+        isMoving = true;
+      }
+      if (keys['ArrowRight']) {
+        player.x += player.speed * dt;
+        isMoving = true;
+      }
+      if (keys['ArrowUp']) {
+        player.y -= player.speed * dt;
+        isMoving = true;
+      }
+      if (keys['ArrowDown']) {
+        player.y += player.speed * dt;
+        isMoving = true;
+      }
+      player.moving = isMoving;
+
+      // Update animation frame if the player is moving.
+      if (player.moving) {
+        player.frameTime += dt * 1000; // convert dt to milliseconds
+        if (player.frameTime >= player.frameInterval) {
+          player.frameIndex = (player.frameIndex + 1) % player.frameCount;
+          player.frameTime = 0;
+        }
+      } else {
+        player.frameIndex = 0; // Reset frame when idle.
+      }
+
+      // Ensure the player stays within canvas boundaries.
+      if (player.x < 0) player.x = 0;
+      if (player.y < 0) player.y = 0;
+      if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+      if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
+    }
+
+    // --- Draw everything ---
+    function render() {
+      // Clear the canvas.
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw the background
+      if (backgroundImage.complete) {
+        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+      } else {
+        // Fallback if background hasn't loaded
+        ctx.fillStyle = '#8ED6FF';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+
+      // Draw the decoration (draggable)
+      if (decorationImage.complete) {
+        ctx.drawImage(decorationImage, decoration.x, decoration.y, decoration.width, decoration.height);
+      } else {
+        ctx.fillStyle = '#FF0000';
+        ctx.fillRect(decoration.x, decoration.y, decoration.width, decoration.height);
+      }
+
+      // Draw the player using the correct frame from the spritesheet
+      if (playerImage.complete) {
+        ctx.drawImage(
+          playerImage,
+          player.frameIndex * player.width, // source x: which frame to draw
+          0,                                // source y
+          player.width, player.height,      // source width and height
+          player.x, player.y,               // destination x and y
+          player.width, player.height       // destination width and height
+        );
+      } else {
+        ctx.fillStyle = '#00FF00';
+        ctx.fillRect(player.x, player.y, player.width, player.height);
+      }
+    }
+
+    // Start the game loop once all assets are likely loaded.
+    window.onload = function() {
+      requestAnimationFrame(gameLoop);
+    };
+  </script>
+</body>
+</html>

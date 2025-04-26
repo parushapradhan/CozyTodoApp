@@ -1,0 +1,85 @@
+
+
+  <!-- JavaScript: Howler and sound control scripts -->
+  <script src="//cdn.jsdelivr.net/npm/phaser@3.86.0/dist/phaser.js"></script>
+  <script src="/assets/js/howler.min.js"></script>
+  <script>
+    // Initialize Howler sound objects with looping
+    var birds = new Howl({ src: ["/assets/music/birds.mp3"], loop: true });
+    var cicadas = new Howl({ src: ["/assets/music/cicadas.mp3"], loop: true });
+    var fire = new Howl({ src: ["/assets/music/fire.mp3"], loop: true });
+    var rain = new Howl({ src: ["/assets/music/rain.mp3"], loop: true });
+    var wind = new Howl({ src: ["/assets/music/wind.mp3"], loop: true });
+
+    // Play each sound and store the players
+    let birdsSoundPlayer = birds.play();
+    let cicadasSoundPlayer = cicadas.play();
+    let fireSoundPlayer = fire.play();
+    let rainSoundPlayer = rain.play();
+    let windSoundPlayer = wind.play();
+
+    // Link sliders to their corresponding sound objects
+    const birdsSlider = document.getElementById("birds");
+    const cicadasSlider = document.getElementById("cicadas");
+    const windSlider = document.getElementById("wind");
+    const rainSlider = document.getElementById("rain");
+    const fireSlider = document.getElementById("fire");
+
+    birdsSlider.addEventListener("input", updateValue);
+    cicadasSlider.addEventListener("input", updateValue);
+    windSlider.addEventListener("input", updateValue);
+    rainSlider.addEventListener("input", updateValue);
+    fireSlider.addEventListener("input", updateValue);
+
+    function updateValue(e) {
+      const soundPlayer = getSoundPlayer(e.target.id);
+      soundPlayer.volume(e.target.value / 100);
+    }
+
+    function getSoundPlayer(id) {
+      if (id === "birds") return birds;
+      if (id === "cicadas") return cicadas;
+      if (id === "wind") return wind;
+      if (id === "rain") return rain;
+      if (id === "fire") return fire;
+    }
+
+
+        // Toggle functionality for Menu 1
+    document.getElementById('settings').addEventListener('click', function() {
+      var menu1 = document.getElementById('menu-1');
+      menu1.style.display = (menu1.style.display === 'none' || menu1.style.display === '') ? 'flex' : 'none';
+    });
+    
+    // Toggle functionality for Menu 2
+    document.getElementById('notebook').addEventListener('click', function() {
+      var menu2 = document.getElementById('menu-2');
+      menu2.style.display = (menu2.style.display === 'none' || menu2.style.display === '') ? 'flex' : 'none';
+    });
+
+    document.addEventListener('keydown', function(event) {
+  if (event.key.toLowerCase() === 'escape') {
+    var menu2 = document.getElementById('menu-2');
+    menu2.style.display = (menu2.style.display === 'none' || menu2.style.display === '') ? 'flex' : 'none';
+  }
+});
+
+document.addEventListener('keydown', function(event) {
+  if (event.key.toLowerCase() === 'shift') {
+    var menu1 = document.getElementById('menu-1');
+    menu1.style.display = (menu1.style.display === 'none' || menu1.style.display === '') ? 'flex' : 'none';
+  }
+});
+
+
+
+  </script>
+  <script>
+    const USER = <%- JSON.stringify(user) %>;
+  </script>
+  <script src="/assets/js/clock.js" defer></script>
+  <script type="module" src="/assets/js/game.js" defer></script>
+  <script src="/assets/js/musicPlayer.js" defer></script>
+  <script src="/assets/js/settingsMenu.js" defer></script>
+  <script src="/assets/js/todo.js" defer></script>
+  <script src="/assets/js/calendar.js" defer></script>

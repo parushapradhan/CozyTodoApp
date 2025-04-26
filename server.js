@@ -1,146 +1,81 @@
 const express = require("express");
+const session = require("express-session");
+const mongoose = require("mongoose");
 const fs = require("fs");
 const path = require("path");
-const mongoose = require("mongoose");
+const usersPath = path.join(__dirname, "data", "users.json");
+const User = require("./models/User");
+const userRoutes = require("./routes/userRoutes");
 require("dotenv").config();
 
 const app = express();
-// const PORT = 3000;
+const PORT = 8080;
 
-// 🔗 MongoDB (currently unused but connected)
-//mongoose
-//.connect(
-//`mongodb+srv://parushapradhan78:${process.env.DB_password}@cluster0webdev.ot1x2pr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0webdev`,
-// {
-// useNewUrlParser: true,
-// useUnifiedTopology: true,
-//}
-// )
-// .then(() => console.log("✅ MongoDB connected"))
-//.catch((err) => console.error("❌ MongoDB error:", err));
-
-// 📁 Path to users.json
-const usersPath = path.join(__dirname, "data", "users.json");
-
-// 🛠 Middleware
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json());
+app.use(
+  session({
+    secret: `${process.env.SECRET_KEY}`,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false },
+  })
+);
+app.use("/", userRoutes);
+// Connect to MongoDB (even though we're not using it yet)
 
-// 🌐 Routes
-app.get("/", (req, res) => {
-  res.render("pages/index");
-});
+mongoose
+  .connect(`${process.env.DB_URI}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch((err) => console.error(err));
 
-app.get("/signup", (req, res) => {
-  res.render("pages/signup");
-});
+// let user = {
+//   // "_id": {
+//   //   "$oid": "67f8791968f64a134799872d"
+//   // },
+//   // "user_id": "user_001",
+//   "sound_settings": {
+//     "cicadas": 50,
+//     "fire": 10,
+//     "wind": 0,
+//     "rain": 0,
+//     "birds": 100
+//   },
+//   "character": "wizard",
+//   "animal": "calico",
+//   "music_settings": {
+//     "track": {
+//       "track1": "off",
+//       "track2": "on",
+//       "track3": "on"
+//     },
+//     "level": 1,
+//     "exp": 0,
+//     "tasks": [
+//       // {
+//       //   "task_name": "sdfsdfsdF",
+//       //   "status": "completed",
+//       //   "visible": true
+//       // }
+//     ]
+//   },
+//   "settings": {
+//     "location": "bedroom",
+//     "time_format": "24hrs"
+//   }
+// }
 
-app.get("/login", (req, res) => {
-  res.render("pages/login");
-});
+app.use(express.urlencoded({ extended: true }));
 
-app.get("/forgotPassword", (req, res) => {
-  res.render("pages/forgotPassword");
-});
-
-// 📝 Signup - Save to JSON
-app.post("/signup", (req, res) => {
-  const { username, email, password } = req.body;
-  let users = JSON.parse(fs.readFileSync(usersPath, "utf8"));
-
-  const exists = users.find((u) => u.email === email);
-  if (exists) {
-    return res.send("❌ User already exists! <a href='/signup'>Try again</a>");
-  }
-
-  users.push({
-    username,
-    email,
-    password,
-    level: 1,
-    xp: 0,
-    tasks: [],
-    selectedTracks: [],
+app
+  .listen(8080, () => {
+    console.log("🚀 Server is running at http://localhost:8080");
+  })
+  .on("error", (err) => {
+    console.error("❌ Server failed to start:", err);
   });
-
-  fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
-  res.redirect("/");
-});
-
-// 🔐 Login
-app.post("/login", (req, res) => {
-  const { email, password } = req.body;
-  const users = JSON.parse(fs.readFileSync(usersPath, "utf8"));
-
-  const user = users.find((u) => u.email === email && u.password === password);
-  if (!user) {
-    return res.send("❌ Invalid credentials. <a href='/login'>Try again</a>");
-  }
-
-  res.redirect("/");
-});
-
-// 🔐 Forgot Password
-app.post("/forgotPassword", (req, res) => {
-  console.log("✅ Forgot password form submitted:", req.body);
-  res.redirect("/login");
-});
-
-// 🧑‍💼 ADMIN PANEL
-app.get("/admin", (req, res) => {
-  const users = JSON.parse(fs.readFileSync(usersPath, "utf8"));
-  res.render("pages/admin", { users });
-});
-
-app.post("/admin/delete-user", (req, res) => {
-  const { email } = req.body;
-  let users = JSON.parse(fs.readFileSync(usersPath, "utf8"));
-  users = users.filter((u) => u.email !== email);
-  fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
-  res.redirect("/admin");
-});
-
-app.post("/admin/remove-task", (req, res) => {
-  const { email, task } = req.body;
-  const users = JSON.parse(fs.readFileSync(usersPath, "utf8"));
-  const user = users.find((u) => u.email === email);
-  if (user) {
-    user.tasks = user.tasks.filter((t) => t !== task);
-    fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
-  }
-  res.redirect("/admin");
-});
-
-app.post("/admin/update-level", (req, res) => {
-  const { email, level } = req.body;
-  const users = JSON.parse(fs.readFileSync(usersPath, "utf8"));
-  const user = users.find((u) => u.email === email);
-  if (user) {
-    user.level = parseInt(level);
-    fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
-  }
-  res.redirect("/admin");
-});
-app.post("/update-playlist", (req, res) => {
-  const { email, selectedTracks } = req.body;
-
-  let users = JSON.parse(fs.readFileSync(usersPath, "utf8"));
-
-  users = users.map((user) => {
-    if (user.email === email) {
-      user.selectedTracks = Array.isArray(selectedTracks)
-        ? selectedTracks
-        : [selectedTracks];
-    }
-    return user;
-  });
-
-  fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
-  res.redirect("/"); // or stay on same page
-});
-
-// 🚀 Start Server
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running at http://localhost:${PORT}`);
-});
