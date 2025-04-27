@@ -108,25 +108,17 @@ export class Outdoor extends Phaser.Scene {
       
               initWeather(this)
 
-                 // DYNAMIC NIGHT LIGHTING
-                // const hour = new Date().getHours();
-                // const isNight = hour < 6 || hour >= 18;
-                // // much darker ambient & dimmer overhead
-            
-                // const hour = new Date().getHours();
-            
-                // // DYNAMIC NIGHT LIGHTING & OVERLAY
-                // const ambientColor = isNight ? 0x000000 : 0x555555;
-                // const lightIntensity = isNight ? 0.1 : 1.0;
-                // this.lights.enable().setAmbientColor(ambientColor);
-                // this.lights.addLight(this.scale.width / 2, this.scale.height / 4, 300)
-                //   .setIntensity(lightIntensity);
 
                 if(isNight){
-                    this.wizardFirefly = this.add.sprite(150, 80, 'wizardFirefly').play('wizardFirefly_anim').setDepth(1000);
-                    this.wizardHouseLight=this.add.sprite(20, 120, 'wizardHouseLight').setDepth(1000);
+                    this.add.sprite(150, 80, 'wizardFirefly').play('wizardFirefly_anim').setDepth(1000);
+
+                    this.add.sprite(40, 160, 'wizardFirefly').play('wizardFirefly_anim').setDepth(1000);
+                    this.add.sprite(50, 130, 'wizardHouseLight').setDepth(1000);
+                    this.add.sprite(110, 130, 'wizardHouseLight').setDepth(1000);
                     this.wizardHouse=this.add.sprite(75, 65, 'wizardHouse').setOrigin(0.5).setScale(0.8).play('wizardHouse_anim');
-                    this.wizardOutdoorLight = this.add.sprite(154, 132, 'wizardOutdoorLight').play('wizardOutdoorLight_anim').setDepth(1000);
+                    this.add.sprite(160, 135, 'wizardOutdoorLight').play('wizardOutdoorLight_anim').setDepth(1000);
+                    this.add.sprite(56, 95, 'wizardOutdoorLight').play('wizardOutdoorLight_anim').setDepth(1000);
+                    this.add.sprite(95, 95, 'wizardOutdoorLight').play('wizardOutdoorLight_anim').setDepth(1000);
                 }
                 playAnimalAnimation(this);
                 this.player = new Player(this, 100, 150); 
@@ -136,13 +128,9 @@ export class Outdoor extends Phaser.Scene {
   
       update() {
             this.player.update();
-            if (this.player.x >= 160 && this.player.y >= 170) {
-                this.scene.start('Basement'); // replace with your target room key
-                }
-            if (this.player.x >= 160 && this.player.y <= 10) {
-            this.scene.start('Bedroom'); // replace with your target room key
+            if (this.player.x >= 55 && this.player.y <= 110) {
+                this.scene.start('Bedroom'); 
             }
-            // updateWeather(this)
         }
   }
   
