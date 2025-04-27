@@ -2,16 +2,16 @@
 const tracks = [
   { name: "Lofi Sunrise", src: "/assets/music/lofi/lofi-hip-hop.mp3" },
   { name: "Rainy Loops", src: "/assets/music/lofi/good-night.mp3" },
-  { name: "Calm Forest", src: "/assets/music/lofi/walking-dream.mp3" }
+  { name: "Calm Forest", src: "/assets/music/lofi/walking-dream.mp3" },
 ];
 
 let currentTrackIndex = 0;
 let audio = new Audio(tracks[currentTrackIndex].src);
-audio.volume = 0.5; 
+audio.volume = 0.5;
 let isPlaying = true;
 
 function updateTrackInfo() {
-  const trackInfoElem = document.getElementById('track-info');
+  const trackInfoElem = document.getElementById("track-info");
   if (trackInfoElem) {
     trackInfoElem.textContent = tracks[currentTrackIndex].name;
   }
@@ -19,14 +19,13 @@ function updateTrackInfo() {
 
 updateTrackInfo();
 
-
 function playTrack(index) {
   currentTrackIndex = index;
   audio.src = tracks[index].src;
   audio.play();
   isPlaying = true;
   updateTrackInfo();
-  const playPauseIcon = document.getElementById('toggle-music');
+  const playPauseIcon = document.getElementById("toggle-music");
   if (playPauseIcon) {
     playPauseIcon.innerHTML =
       '<img src="/assets/images/icon/Play.svg" alt="Play" />';
@@ -38,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const shuffleBtn = document.getElementById("shuffle-music");
   const volumeSlider = document.getElementById("volume-slider");
   const trackList = document.getElementById("track-list");
-  const playPauseIcon = document.getElementById('playPauseIcon');
+  const playPauseIcon = document.getElementById("playPauseIcon");
 
   // Toggle play/pause
   toggleBtn.addEventListener("click", () => {
@@ -47,7 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
       isPlaying = false;
       // Change icon to "play" (triangle)
       if (playPauseIcon) {
-        playPauseIcon.innerHTML = '<img src="/assets/images/icon/Play.svg" alt="Play" />';
+        playPauseIcon.innerHTML =
+          '<img src="/assets/images/icon/Play.svg" alt="Play" />';
       }
     } else {
       playTrack(currentTrackIndex);
