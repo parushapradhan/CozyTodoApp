@@ -141,9 +141,7 @@ body {
 .menu {
   /* Outer container for the menu */
   width: 300px;
-  border: 2px solid var(--color-menu-border);
   border-radius: 10px;
-  background-color: var(--color-menu-bg);
   /* Replace with a pixel font if desired */
   color: var(--color-menu-text);
   box-sizing: border-box;
@@ -164,8 +162,6 @@ body {
 
 .menu-body {
   /* The main text area */
-  background-color: var(--color-menu-body-bg);
-  border: 2px solid var(--color-menu-body-border);
   border-radius: 20px;
   padding: 8px;
   font-size: 14px;

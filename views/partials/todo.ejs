@@ -1,4 +1,4 @@
-<div id="menu-2" class="toggle-menu modal" >
+<div id="menu-1" class="toggle-menu modal" >
     <div class="book-container">
         <div class="settings-container" style="width: 50%;">
             <!-- Main Content Area -->
@@ -14,16 +14,14 @@
             </div>
         </div>
         <div>
-          <%- include('../partials/menu'); %>
-          <form
-          action="/logout"
-          method="POST"
-          class="logout-form"
-          style="position: absolute; bottom: 20px; right: 80px"
-        >
-          <button type="submit" class="logoutBtn">Logout</button>
-        </form>
-      </div>
+            <%- include('../partials/menu'); %>
+            <form
+            action="/logout"
+            method="POST"
+            class="logout-form"
+            style="position: absolute; bottom: 20px; right: 80px">
+            <button type="submit" class="logoutBtn">Logout</button>
+            </form>
         </div>
     </div>
 </div>

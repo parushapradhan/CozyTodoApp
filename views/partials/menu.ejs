@@ -1,18 +1,60 @@
-<div id="menu-1">
-    <div class="menu">
-      <div class="menu-header">Menu</div>
-      <div class="menu-body">
+
+  <div class="menu">
+    <div class="menu-header">Menu</div>
+    <div class="menu-body">
+
+      <!-- Companion Selection -->
+      <fieldset>
+        <legend>Choose your companion:</legend>
         <label>
-          <input type="checkbox" id="toggle-dozy" disabled />
+          <input type="radio" name="animal" value="dozy" id="animal-dozy" disabled>
           🐶 Dozy (Unlocks at level 1)
         </label><br>
         <label>
-          <input type="checkbox" id="toggle-henrietta" disabled />
+          <input type="radio" name="animal" value="henrietta" id="animal-henrietta" disabled>
           🐔 Henrietta (Unlocks at level 2)
-        </label><br><br>
-        
-        <button id="toggle-format">Toggle 12/24hr</button><br><br>
-        <button id="save-settings" class="pixel-button">Update</button>
-      </div>
+        </label><br>
+        <label>
+          <input type="radio" name="animal" value="calico" id="animal-calico" disabled>
+          🐱 Calico (Unlocks at level 3)
+        </label><br>
+        <label>
+          <input type="radio" name="animal" value="siamese" id="animal-siamese" disabled>
+          🐱 Siamese (Unlocks at level 4)
+        </label><br>
+        <label>
+          <input type="radio" name="animal" value="capybara" id="animal-capybara" disabled>
+          🦫 Capybara (Unlocks at level 5)
+        </label><br>
+      </fieldset>
+
+      <br>
+
+      <!-- Character Selection -->
+      <fieldset>
+        <legend>Choose your character:</legend>
+        <label>
+          <input type="radio" name="character" value="wizard" id="char-wizard">
+          🧙‍♂️ Wizard
+        </label><br>
+        <label>
+          <input type="radio" name="character" value="robed" id="char-robed">
+          🧙‍♀️ Robed Mage
+        </label><br>
+        <label>
+          <input type="radio" name="character" value="witch" id="char-witch">
+          🧙‍♀️ Witch
+        </label><br>
+        <label>
+          <input type="radio" name="character" value="ghost" id="char-ghost">
+          👻 Ghost
+        </label><br>
+      </fieldset>
+
+      <br>
+
+      <button id="toggle-format">Toggle 12/24 hr</button><br><br>
+      <button id="save-settings" class="pixel-button">Update</button>
     </div>
-    </div>
+  </div>
+

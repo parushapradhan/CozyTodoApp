@@ -46,30 +46,32 @@
 
 
         // Toggle functionality for Menu 1
-    document.getElementById('settings').addEventListener('click', function() {
+    document.getElementById('notebook').addEventListener('click', function() {
       var menu1 = document.getElementById('menu-1');
       menu1.style.display = (menu1.style.display === 'none' || menu1.style.display === '') ? 'flex' : 'none';
     });
     
     // Toggle functionality for Menu 2
-    document.getElementById('notebook').addEventListener('click', function() {
-      var menu2 = document.getElementById('menu-2');
-      menu2.style.display = (menu2.style.display === 'none' || menu2.style.display === '') ? 'flex' : 'none';
-    });
+    // document.getElementById('notebook').addEventListener('click', function() {
+    //   var menu2 = document.getElementById('menu-2');
+    //   menu2.style.display = (menu2.style.display === 'none' || menu2.style.display === '') ? 'flex' : 'none';
+    // });
 
     document.addEventListener('keydown', function(event) {
-  if (event.key.toLowerCase() === 'escape') {
-    var menu2 = document.getElementById('menu-2');
-    menu2.style.display = (menu2.style.display === 'none' || menu2.style.display === '') ? 'flex' : 'none';
-  }
-});
+      if (event.key.toLowerCase() === 'escape') {
+        var menu1 = document.getElementById('menu-1');
+        menu1.style.display = (menu1.style.display === 'none' || menu1.style.display === '') ? 'flex' : 'none';
+      }
+    });
 
-document.addEventListener('keydown', function(event) {
-  if (event.key.toLowerCase() === 'shift') {
-    var menu1 = document.getElementById('menu-1');
-    menu1.style.display = (menu1.style.display === 'none' || menu1.style.display === '') ? 'flex' : 'none';
-  }
-});
+    // Uncomment the following code to toggle menu-1 with Shift key
+
+// document.addEventListener('keydown', function(event) {
+//   if (event.key.toLowerCase() === 'shift') {
+//     var menu1 = document.getElementById('menu-1');
+//     menu1.style.display = (menu1.style.display === 'none' || menu1.style.display === '') ? 'flex' : 'none';
+//   }
+// });
 
 
 
@@ -80,6 +82,6 @@ document.addEventListener('keydown', function(event) {
   <script src="/assets/js/clock.js" defer></script>
   <script type="module" src="/assets/js/game.js" defer></script>
   <script src="/assets/js/musicPlayer.js" defer></script>
-  <script src="/assets/js/settingsMenu.js" defer></script>
+  <script src="/assets/js/playerSettings.js" defer></script>
   <script src="/assets/js/todo.js" defer></script>
   <script src="/assets/js/calendar.js" defer></script>
