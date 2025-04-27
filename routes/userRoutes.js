@@ -24,4 +24,6 @@ router.get("/admin", userController.adminPanel);
 router.post("/admin/delete-user", userController.deleteUser);
 router.post("/admin/remove-task", userController.removeTask);
 router.post("/admin/update-level", userController.updateLevel);
+router.post("/resetPassword", userController.resetPasswordSubmit);
+
 module.exports = router;

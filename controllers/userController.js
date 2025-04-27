@@ -25,9 +25,9 @@ exports.signupUser = async (req, res) => {
     const existing = await User.findOne({ username });
     console.log(await User.findOne({ username }));
     if (existing)
-      return res.send(
-        "❌ User already exists! <a href='/signup'>Try again</a>"
-      );
+      return res.render("pages/login", {
+        errorMessage: "User already Exists!",
+      });
     const token = crypto.randomBytes(32).toString("hex");
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
@@ -82,7 +82,9 @@ exports.signupUser = async (req, res) => {
         console.error("❌ Email failed:", err);
       });
 
-    res.send("📨 A verification email has been sent. Please check your inbox.");
+    return res.render("pages/login", {
+      errorMessage: "Verification Link sent, check Inbox!",
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal server error");
@@ -96,7 +98,9 @@ exports.verifyUser = async (req, res) => {
   try {
     const user = await User.findOne({ verificationToken: token });
     if (!user) {
-      return res.send("❌ Invalid or expired verification link.");
+      return res.render("pages/login", {
+        errorMessage: "Invalid or Expired Token!",
+      });
     }
 
     user.verified = true;
@@ -146,9 +150,53 @@ exports.loginUser = async (req, res) => {
 };
 
 // POST /forgotPassword
-exports.forgotPasswordSubmit = (req, res) => {
-  console.log("✅ Forgot password form submitted:", req.body);
-  res.redirect("/login");
+exports.forgotPasswordSubmit = async (req, res) => {
+  const { username } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      // If user not found, stay on login page with error
+      return res.render("pages/login", {
+        errorMessage: "❌ Username not found!",
+      });
+    }
+
+    // Save their user ID in session for resetting later
+    req.session.resetUser = user._id;
+
+    // Render the reset password page
+    res.render("pages/resetPassword");
+  } catch (err) {
+    console.error("Forgot password error:", err);
+    res.status(500).send("Server error during password reset process");
+  }
+};
+exports.resetPasswordSubmit = async (req, res) => {
+  const { newPassword } = req.body;
+  const userId = req.session.resetUser;
+
+  if (!userId) {
+    return res
+      .status(400)
+      .send("Session expired. Please try Forgot Password again.");
+  }
+
+  try {
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await User.findByIdAndUpdate(userId, { password: hashedPassword });
+
+    // Clear the session
+    req.session.resetUser = null;
+
+    res.render("pages/login", {
+      errorMessage: "✅ Password successfully reset! Please log in.",
+    });
+  } catch (err) {
+    console.error("Password reset error:", err);
+    res.status(500).send("Failed to reset password");
+  }
 };
 
 exports.logoutUser = (req, res) => {
