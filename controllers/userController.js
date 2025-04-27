@@ -104,9 +104,7 @@ exports.verifyUser = async (req, res) => {
     await user.save();
     console.log("✅ User verified:", user.username);
 
-    res.send(
-      "✅ Your account has been verified! You can now <a href='/login'>login</a>."
-    );
+    res.render("pages/verifySuccess", { username: user.username });
   } catch (err) {
     console.error("Verification error:", err);
     res.status(500).send("Something went wrong during verification.");
