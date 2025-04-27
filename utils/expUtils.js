@@ -1,17 +1,17 @@
+exports.checkExpLevel = (user) => {
+  const exp = user.music_settings.exp;
+  let level = user.music_settings.level;
 
-function checkExpLevel(user) {
-    const exp = user.music_settings.exp;
-    if (exp >= 800) {
-      user.music_settings.level = 5;
-    } else if (exp >= 600) {
-      user.music_settings.level = 4;
-    } else if (exp >= 400) {
-      user.music_settings.level = 3;
-    } else if (exp >= 200) {
-      user.music_settings.level = 2;
-    }
-    return user;
+  if (exp >= 200 && level === 1) {
+    user.music_settings.level = 2;
   }
-  
-  module.exports = { checkExpLevel };
-  
+  if (exp >= 400 && level === 2) {
+    user.music_settings.level = 3;
+  }
+  if (exp >= 600 && level === 3) {
+    user.music_settings.level = 4;
+  }
+  if (exp >= 800 && level === 4) {
+    user.music_settings.level = 5;
+  }
+};

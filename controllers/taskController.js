@@ -1,16 +1,19 @@
 const Task = require('../models/Task');
+const User = require('../models/User');
+const { checkExpLevel } = require('../utils/expUtils');
 
-// Create a task
 exports.createTask = async (req, res) => {
   try {
     const { description } = req.body;
-    const newTask = new Task({
-      userId: req.session.user._id,  // Link task to logged-in user
+    const userId = req.session.user._id;
+
+    const newTask = await Task.create({
+      userId,
       description,
       status: 'ongoing',
       visible: true
     });
-    await newTask.save();
+
     res.status(201).json(newTask);
   } catch (error) {
     console.error(error);
@@ -18,7 +21,6 @@ exports.createTask = async (req, res) => {
   }
 };
 
-// Get all tasks for current user
 exports.getTasks = async (req, res) => {
   try {
     const tasks = await Task.find({ userId: req.session.user._id });
@@ -29,12 +31,25 @@ exports.getTasks = async (req, res) => {
   }
 };
 
-// Update task status
 exports.updateTask = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
+
     const updatedTask = await Task.findByIdAndUpdate(id, { status }, { new: true });
+
+    if (status === 'done') {
+      const task = await Task.findById(id);
+      const user = await User.findById(task.userId);
+
+      if (user) {
+        user.music_settings.exp += 10;
+        checkExpLevel(user);
+        await user.save();
+        req.session.user = user;
+      }
+    }
+
     res.status(200).json(updatedTask);
   } catch (error) {
     console.error(error);
@@ -42,12 +57,11 @@ exports.updateTask = async (req, res) => {
   }
 };
 
-// Delete a task
 exports.deleteTask = async (req, res) => {
   try {
     const { id } = req.params;
     await Task.findByIdAndDelete(id);
-    res.status(200).json({ message: 'Task deleted' });
+    res.status(200).json({ message: 'Task deleted successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to delete task' });
