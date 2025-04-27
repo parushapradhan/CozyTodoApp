@@ -214,10 +214,19 @@ exports.updateLevel = async (req, res) => {
     if (req.session.user?.role !== "admin")
       return res.status(403).send("Access denied");
 
-    await User.updateOne(
+    console.log("Trying to update level for:", email, "to level:", level);
+
+    const result = await User.updateOne(
       { email },
-      { $set: { "music_settings.level": parseInt(level) } }
+      { $set: { level: parseInt(level, 10) } }
     );
+
+    console.log("MongoDB Update Result:", result);
+
+    if (result.modifiedCount === 0) {
+      console.warn("⚠️ No user updated — maybe wrong email?");
+    }
+
     res.redirect("/admin");
   } catch (err) {
     console.error("Update level error:", err);
