@@ -6,6 +6,7 @@ const path = require("path");
 const usersPath = path.join(__dirname, "data", "users.json");
 const User = require("./models/User");
 const userRoutes = require("./routes/userRoutes");
+const taskRoutes = require('./routes/taskRoutes');
 require("dotenv").config();
 
 const app = express();
@@ -24,6 +25,7 @@ app.use(
   })
 );
 app.use("/", userRoutes);
+app.use('/', taskRoutes);
 // Connect to MongoDB (even though we're not using it yet)
 
 mongoose
