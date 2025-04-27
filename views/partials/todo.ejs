@@ -1,29 +1,29 @@
-<div id="menu-2" class="toggle-menu modal">
-  <div class="book-container" style="display: flex">
-    <!-- LEFT PAGE -->
-    <div class="settings-container" style="width: 50%">
-      <div class="content">
-        <h2 class="border-text">Todo List</h2>
-        <div class="todo-input">
-          <input type="text" id="taskInput" placeholder="Add a new task..." />
-          <button id="addBtn">Add</button>
+<div id="menu-2" class="toggle-menu modal" >
+    <div class="book-container">
+        <div class="settings-container" style="width: 50%;">
+            <!-- Main Content Area -->
+            <div class="content">
+              <h2 class="border-text">Todo List</h2>
+              <div class="todo-input">
+                <input type="text" id="taskInput" placeholder="Add a new task..." />
+                <button id="addBtn">Add</button>
+              </div>
+              <ul class="todo-list" id="todoList">
+                <!-- Tasks will appear here -->
+              </ul>
+            </div>
         </div>
-        <ul class="todo-list" id="todoList">
-          <!-- Tasks will appear here -->
-        </ul>
+        <div>
+          <%- include('../partials/menu'); %>
+          <form
+          action="/logout"
+          method="POST"
+          class="logout-form"
+          style="position: absolute; bottom: 20px; right: 80px"
+        >
+          <button type="submit" class="logoutBtn">Logout</button>
+        </form>
       </div>
+        </div>
     </div>
-
-    <!-- RIGHT PAGE -->
-    <div class="settings-container" style="width: 50%; position: relative">
-      <form
-        action="/logout"
-        method="POST"
-        class="logout-form"
-        style="position: absolute; bottom: 20px; right: 80px"
-      >
-        <button type="submit" class="logoutBtn">Logout</button>
-      </form>
-    </div>
-  </div>
 </div>

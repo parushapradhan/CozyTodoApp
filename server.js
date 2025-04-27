@@ -1,11 +1,11 @@
 const express = require("express");
-const session = require('express-session');
+const session = require("express-session");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const path = require("path");
 const usersPath = path.join(__dirname, "data", "users.json");
-const User = require('./models/User');
-const userRoutes = require('./routes/userRoutes');
+const User = require("./models/User");
+const userRoutes = require("./routes/userRoutes");
 require("dotenv").config();
 
 const app = express();
@@ -15,26 +15,24 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
-app.use(session({
-  secret: `${process.env.SECRET_KEY}`,
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: false }
-}));
-app.use('/', userRoutes);
+app.use(
+  session({
+    secret: `${process.env.SECRET_KEY}`,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false },
+  })
+);
+app.use("/", userRoutes);
 // Connect to MongoDB (even though we're not using it yet)
 
 mongoose
-.connect(
-`${process.env.DB_URI}`,
-{
-useNewUrlParser: true,
-useUnifiedTopology: true,
-}
-)
-.then(() => console.log("✅ MongoDB connected"))
-.catch((err) => console.error(err));
-
+  .connect(`${process.env.DB_URI}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch((err) => console.error(err));
 
 // let user = {
 //   // "_id": {
@@ -71,7 +69,6 @@ useUnifiedTopology: true,
 //     "time_format": "24hrs"
 //   }
 // }
-
 
 app.use(express.urlencoded({ extended: true }));
 
