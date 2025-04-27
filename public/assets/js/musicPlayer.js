@@ -95,9 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-var birds = new Howl({ src: ["/assets/music/birds.mp3"], loop: true, volume: 0.5 });
-var cicadas = new Howl({ src: ["/assets/music/cicadas.mp3"], loop: true, volume: 0.3 });
-var fire = new Howl({ src: ["/assets/music/fire.mp3"], loop: true,volume: 0.3 });
+var birds = new Howl({ src: ["/assets/music/birds.mp3"], loop: true, volume: 0 });
+var cicadas = new Howl({ src: ["/assets/music/cicadas.mp3"], loop: true, volume: 0 });
+var fire = new Howl({ src: ["/assets/music/fire.mp3"], loop: true,volume: 0 });
 var rain = new Howl({ src: ["/assets/music/rain.mp3"], loop: true,volume: 0 });
 var wind = new Howl({ src: ["/assets/music/wind.mp3"], loop: true,volume: 0 });
 
@@ -146,5 +146,36 @@ document.addEventListener('keydown', function(event) {
     var menu1 = document.getElementById('menu-1');
     menu1.style.display = (menu1.style.display === 'none' || menu1.style.display === '') ? 'flex' : 'none';
   }
+});
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const sliderMap = {
+    wind:    'wind',
+    rain:    'rain',
+    cicadas: 'cicadas',
+    birds:   'birds',
+    fire:    'fire'
+  };
+  const settings = USER.sound_settings || {};
+  Object.entries(sliderMap).forEach(([key, sliderId]) => {
+    const slider = document.getElementById(sliderId);
+    const saved = parseInt(settings[key], 10);
+    if (!isNaN(saved)) {
+      slider.value = saved;
+      slider.dispatchEvent(new Event('input'));
+    }
+    slider.addEventListener('input', e => {
+      const v = +e.target.value;
+      USER.sound_settings[key] = v;
+      fetch('/updateUserSettings', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ [`sound_settings.${key}`]: v })
+      });
+    });
+  });
 });
 

@@ -108,14 +108,14 @@ export class Outdoor extends Phaser.Scene {
       
               initWeather(this)
                 // Add the wizard house lights
-
+                this.wizardHouse=this.add.sprite(75, 65, 'wizardHouse').setOrigin(0.5).setScale(0.8).play('wizardHouse_anim');
                 if(isNight){
                     this.add.sprite(150, 80, 'wizardFirefly').play('wizardFirefly_anim').setDepth(1000);
 
                     this.add.sprite(40, 160, 'wizardFirefly').play('wizardFirefly_anim').setDepth(1000);
                     this.add.sprite(47, 87, 'wizardHouseLight').setDepth(1000);
                     this.add.sprite(104, 87, 'wizardHouseLight').setDepth(1000);
-                    this.wizardHouse=this.add.sprite(75, 65, 'wizardHouse').setOrigin(0.5).setScale(0.8).play('wizardHouse_anim');
+       
                     this.add.sprite(160, 135, 'wizardOutdoorLight').play('wizardOutdoorLight_anim').setDepth(1000);
                     this.add.sprite(56, 95, 'wizardOutdoorLight').play('wizardOutdoorLight_anim').setDepth(1000);
                     this.add.sprite(95, 95, 'wizardOutdoorLight').play('wizardOutdoorLight_anim').setDepth(1000);

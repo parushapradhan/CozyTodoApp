@@ -24,12 +24,26 @@ console.log('USER:', USER);
     console.log('Time format set to:', USER.settings.time_format);
   });
 
+
+// const birdsSlider = document.getElementById("birds");
+// const cicadasSlider = document.getElementById("cicadas");
+// const windSlider = document.getElementById("wind");
+// const rainSlider = document.getElementById("rain");
+// const fireSlider = document.getElementById("fire");
+
   // 4) Save updated settings
   document.getElementById('save-settings').addEventListener('click', () => {
     const updatedFields = {};
     const newAnimal   = document.querySelector('input[name="animal"]:checked')?.value;
     const newChar     = document.querySelector('input[name="character"]:checked')?.value;
     const newFormat   = USER.settings.time_format;
+    const newSoundSettings = {
+      birds: birdsSlider.value,
+      cicadas: cicadasSlider.value,
+      wind: windSlider.value,
+    rain: rainSlider.value,
+      fire: fireSlider.value
+    }
 
     if (newAnimal && newAnimal !== USER.animal) {
       updatedFields.animal = newAnimal;
@@ -39,6 +53,9 @@ console.log('USER:', USER);
     }
     if (newFormat !== USER.settings.time_format) {
       updatedFields['settings.time_format'] = newFormat;
+    }
+    if (newSoundSettings !== USER.soundSettings) {
+      updatedFields['soundSettings'] = newSoundSettings;
     }
 
     if (Object.keys(updatedFields).length === 0) {
