@@ -89,7 +89,7 @@ export class Kitchen extends Phaser.Scene {
             chest.anims.play('animated_chest1');
 
             playAnimalAnimation(this);
-              this.player = new Player(this, 100, 150); // x, y coordinates
+              this.player = new Player(this, 145, 80); // x, y coordinates
   
           // Optional: add collisions or interactions
         //   this.physics.add.collider(this.player, this.obstacles);
@@ -100,10 +100,10 @@ export class Kitchen extends Phaser.Scene {
             if (this.player.x >= 160 && this.player.y >= 170) {
                 this.scene.start('Basement'); // replace with your target room key
                 }
-            // if (this.player.x >= 160 && this.player.y <= 10) {
-            // this.scene.start('Bedroom'); 
-            // }
             if (this.player.x >= 160 && this.player.y <= 10) {
+            this.scene.start('Bedroom'); 
+            }
+            if (this.player.x >= 100 && this.player.y >= 180) {
               this.scene.start('Outdoor'); // replace with your target room key
               }
         }
