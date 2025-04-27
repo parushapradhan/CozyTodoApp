@@ -6,6 +6,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   verified: { type: Boolean, default: false },
   verificationToken: { type: String },
+  role: { type: String, enum: ["user", "admin"], default: "user" },
   sound_settings: {
     cicadas: Number,
     fire: Number,

@@ -1,37 +1,45 @@
 <%- include('../partials/header'); %>
+
 <div class="auth-container">
   <h2>👑 Admin Panel</h2>
 
   <% users.forEach(user => { %>
   <div class="user-card">
-    <h3><%= user.username %> (Level <%= user.level %>)</h3>
+    <h3><%= user.username %> (Level <%= user.music_settings.level %>)</h3>
     <p><strong>Email:</strong> <%= user.email %></p>
-    <p><strong>XP:</strong> <%= user.xp %></p>
+    <p><strong>XP:</strong> <%= user.music_settings.exp %></p>
 
+    <!-- Delete User Form -->
     <form action="/admin/delete-user" method="POST" style="display: inline">
       <input type="hidden" name="email" value="<%= user.email %>" />
       <button type="submit">🗑️ Delete User</button>
     </form>
 
-    <form action="/admin/update-level" method="POST">
+    <!-- Update Level Form -->
+    <form action="/admin/update-level" method="POST" style="margin-top: 10px">
       <input type="hidden" name="email" value="<%= user.email %>" />
       <input type="number" name="level" placeholder="New Level" required />
       <button type="submit">🔼 Update Level</button>
     </form>
 
+    <!-- Tasks List -->
     <p><strong>Tasks:</strong></p>
     <ul>
-      <% user.tasks.forEach(task => { %>
+      <% if (user.music_settings.tasks && user.music_settings.tasks.length > 0)
+      { %> <% user.music_settings.tasks.forEach(task => { %>
       <li>
-        <%= task %>
+        <%= task.task_name %>
         <form action="/admin/remove-task" method="POST" style="display: inline">
           <input type="hidden" name="email" value="<%= user.email %>" />
-          <input type="hidden" name="task" value="<%= task %>" />
+          <input type="hidden" name="task" value="<%= task.task_name %>" />
           <button type="submit">❌</button>
         </form>
       </li>
-      <% }) %>
+      <% }) %> <% } else { %>
+      <li>No tasks</li>
+      <% } %>
     </ul>
+
     <hr />
   </div>
   <% }) %>
