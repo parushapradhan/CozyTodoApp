@@ -131,7 +131,7 @@ export class Outdoor extends Phaser.Scene {
       update() {
             this.player.update();
             if (this.player.x >= 55 && this.player.y <= 110) {
-                this.scene.start('Bedroom'); 
+                this.scene.start('Kitchen'); 
             }
         }
   }
