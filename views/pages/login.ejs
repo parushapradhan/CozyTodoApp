@@ -84,5 +84,10 @@ input:focus {
           }, 1500);
         });
     </script>
+    <% if (typeof errorMessage !== "undefined") { %>
+    <script>
+      alert("<%= errorMessage %>");
+    </script>
+<% } %>
   </body>
 </html>

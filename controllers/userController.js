@@ -114,18 +114,29 @@ exports.verifyUser = async (req, res) => {
 // POST /login
 exports.loginUser = async (req, res) => {
   const { username, password } = req.body;
+
   try {
     const user = await User.findOne({ username });
+
     if (!user) {
-      return res.send("❌ Invalid User ID. <a href='/login'>Try again</a>");
+      return res.render("pages/login", {
+        errorMessage: "❌ Invalid Username!",
+      });
     }
+
     if (!user.verified) {
-      return res.send(
-        "🚫 Please verify your email before logging in. <a href='/login'>Back to login</a>"
-      );
+      return res.render("pages/login", {
+        errorMessage: "🚫 Please verify your email before logging in!",
+      });
     }
+
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.send("Invalid password!");
+    if (!isMatch) {
+      return res.render("pages/login", {
+        errorMessage: "❌ Invalid Password!",
+      });
+    }
+
     req.session.user = user;
     res.redirect("/");
   } catch (err) {
