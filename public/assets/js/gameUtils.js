@@ -64,7 +64,7 @@ export function loadAnimalAssets(scene) {
     }
 }
 
-export function playAnimalAnimation(scene) {
+export function playAnimalAnimation(scene,x=100,y=100) {
     if (typeof USER !== "undefined" && USER.animal === 'dozy') {
         scene.anims.create({
         key: 'dozy_sleep_east',
@@ -72,7 +72,7 @@ export function playAnimalAnimation(scene) {
         frameRate: 4,
         repeat: -1
         });
-        const dozy = scene.physics.add.sprite(100, 100, 'dozy_sleep_east');
+        const dozy = scene.physics.add.sprite(x, y, 'dozy_sleep_east');
         dozy.anims.play('dozy_sleep_east');
     }
     if (typeof USER !== "undefined" && USER.animal === 'henrietta') {
@@ -82,7 +82,7 @@ export function playAnimalAnimation(scene) {
         frameRate: 4,
         repeat: -1
         });
-        const henrietta = scene.physics.add.sprite(100, 100, 'henrietta_sleep_east');
+        const henrietta = scene.physics.add.sprite(x, y, 'henrietta_sleep_east');
         henrietta.anims.play('henrietta_sleep_east');
     }
     if (typeof USER !== "undefined" && USER.animal === 'calico') {
@@ -92,7 +92,7 @@ export function playAnimalAnimation(scene) {
         frameRate: 4,
         repeat: -1
         });
-        const calico = scene.physics.add.sprite(100, 100, 'calico_sleep_east');
+        const calico = scene.physics.add.sprite(x, y, 'calico_sleep_east');
         calico.anims.play('calico_sleep_east');
     }
     if (typeof USER !== "undefined" && USER.animal === 'siamese') {
@@ -102,7 +102,7 @@ export function playAnimalAnimation(scene) {
         frameRate: 4,
         repeat: -1
         });
-        const siamese = scene.physics.add.sprite(100, 100, 'siamese_sleep_east');
+        const siamese = scene.physics.add.sprite(x, y, 'siamese_sleep_east');
         siamese.anims.play('dozy_sleeping');
     }
     if (typeof USER !== "undefined" && USER.animal === 'capybara') {
@@ -112,7 +112,7 @@ export function playAnimalAnimation(scene) {
         frameRate: 4,
         repeat: -1
         });
-        const capybara = scene.physics.add.sprite(100, 100, 'capybara_sleep_east');
+        const capybara = scene.physics.add.sprite(x, y, 'capybara_sleep_east');
         capybara.anims.play('capybara_sleep_east');
     }
 }

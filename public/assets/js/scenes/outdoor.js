@@ -107,7 +107,7 @@ export class Outdoor extends Phaser.Scene {
                 });
       
               initWeather(this)
-
+                // Add the wizard house lights
 
                 if(isNight){
                     this.add.sprite(150, 80, 'wizardFirefly').play('wizardFirefly_anim').setDepth(1000);
@@ -120,7 +120,9 @@ export class Outdoor extends Phaser.Scene {
                     this.add.sprite(56, 95, 'wizardOutdoorLight').play('wizardOutdoorLight_anim').setDepth(1000);
                     this.add.sprite(95, 95, 'wizardOutdoorLight').play('wizardOutdoorLight_anim').setDepth(1000);
                 }
-                playAnimalAnimation(this);
+                if(!isNight){
+                    playAnimalAnimation(this,120,130);
+                }
                 this.player = new Player(this, 100, 150); 
           // Optional: add collisions or interactions
         //   this.physics.add.collider(this.player, this.obstacles);
