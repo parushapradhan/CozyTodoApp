@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
   // assume USER.level and USER.settings.time_format and USER.character are set
-  console.log('jere')
+
   const animalRadios = document.querySelectorAll('input[name="animal"]');
   const charRadios   = document.querySelectorAll('input[name="character"]');
   const toggleFormatBtn = document.getElementById('toggle-format');
-
+console.log('USER:', USER);
 
   // 1) Unlock companion choices by level
   if (USER.level >= 1) document.getElementById('animal-dozy').disabled = false;
@@ -25,15 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 4) Save updated settings
-  const saveBtn = document.getElementById('save-settings');
-  console.log('Save button:', saveBtn);
-  if (!saveBtn) {
-    console.error('❌ #save-settings not found in DOM');
-    return;
-  }
   document.getElementById('save-settings').addEventListener('click', () => {
     const updatedFields = {};
-    console.log('Save button exists:');
     const newAnimal   = document.querySelector('input[name="animal"]:checked')?.value;
     const newChar     = document.querySelector('input[name="character"]:checked')?.value;
     const newFormat   = USER.settings.time_format;

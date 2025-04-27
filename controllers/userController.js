@@ -44,11 +44,11 @@ exports.signupUser = async (req, res) => {
         birds: 100,
       },
       character: "wizard",
-      animal: "calico",
+      animal: "dozy",
+      level: 1,
+      exp: 0,
       music_settings: {
         track: { track1: "off", track2: "on", track3: "on" },
-        level: 1,
-        exp: 0,
         tasks: [],
       },
       settings: {
