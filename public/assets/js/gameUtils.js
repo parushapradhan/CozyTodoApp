@@ -64,7 +64,7 @@ export function loadAnimalAssets(scene) {
     }
 }
 
-export function playAnimalAnimation(scene) {
+export function playAnimalAnimation(scene,x=100,y=100) {
     if (typeof USER !== "undefined" && USER.animal === 'dozy') {
         scene.anims.create({
         key: 'dozy_sleep_east',
@@ -72,7 +72,7 @@ export function playAnimalAnimation(scene) {
         frameRate: 4,
         repeat: -1
         });
-        const dozy = scene.physics.add.sprite(100, 100, 'dozy_sleep_east');
+        const dozy = scene.physics.add.sprite(x, y, 'dozy_sleep_east');
         dozy.anims.play('dozy_sleep_east');
     }
     if (typeof USER !== "undefined" && USER.animal === 'henrietta') {
@@ -82,7 +82,7 @@ export function playAnimalAnimation(scene) {
         frameRate: 4,
         repeat: -1
         });
-        const henrietta = scene.physics.add.sprite(100, 100, 'henrietta_sleep_east');
+        const henrietta = scene.physics.add.sprite(x, y, 'henrietta_sleep_east');
         henrietta.anims.play('henrietta_sleep_east');
     }
     if (typeof USER !== "undefined" && USER.animal === 'calico') {
@@ -92,7 +92,7 @@ export function playAnimalAnimation(scene) {
         frameRate: 4,
         repeat: -1
         });
-        const calico = scene.physics.add.sprite(100, 100, 'calico_sleep_east');
+        const calico = scene.physics.add.sprite(x, y, 'calico_sleep_east');
         calico.anims.play('calico_sleep_east');
     }
     if (typeof USER !== "undefined" && USER.animal === 'siamese') {
@@ -102,7 +102,7 @@ export function playAnimalAnimation(scene) {
         frameRate: 4,
         repeat: -1
         });
-        const siamese = scene.physics.add.sprite(100, 100, 'siamese_sleep_east');
+        const siamese = scene.physics.add.sprite(x, y, 'siamese_sleep_east');
         siamese.anims.play('dozy_sleeping');
     }
     if (typeof USER !== "undefined" && USER.animal === 'capybara') {
@@ -112,7 +112,96 @@ export function playAnimalAnimation(scene) {
         frameRate: 4,
         repeat: -1
         });
-        const capybara = scene.physics.add.sprite(100, 100, 'capybara_sleep_east');
+        const capybara = scene.physics.add.sprite(x, y, 'capybara_sleep_east');
         capybara.anims.play('capybara_sleep_east');
     }
 }
+
+// Utility to add weather-driven visual effects based on HTML sliders.
+
+/**
+ * Initializes weather effects on the given Phaser scene.
+ * @param {Phaser.Scene} scene
+ */
+export function initWeather(scene) {
+    const { add, scale, lights, cameras, time } = scene;
+  
+    // --- generate particle textures ---
+    const g = add.graphics();
+  
+    // dust (wind): tiny gray square
+    g.fillStyle(0xbbbbbb);
+    g.fillRect(0, 0, 2, 2);
+    g.generateTexture('dust', 2, 2);
+    g.clear();
+  
+    // raindrop: small blue circle
+    g.fillStyle(0x88ccff);
+    g.fillCircle(4, 4, 4);
+    g.generateTexture('raindrop', 8, 8);
+    g.destroy();
+  
+  
+    // occasional lightning flash during heavy rain
+    time.addEvent({
+      delay: 5000,
+      loop: true,
+      callback: () => {
+        if (+scene.sliders.rain.value > 60) {
+          cameras.main.flash(200, 255, 255, 255);
+        }
+      }
+    });
+  
+    // --- grab sliders ---
+    scene.sliders = {
+      wind: document.getElementById('wind'),
+      rain: document.getElementById('rain')
+    };
+  
+    // WIND effect → dust particles
+    scene.windEmitter = add.particles(
+      0, 0, 'dust',
+      {
+        x: { min: 0, max: scale.width },
+        y: { min: 0, max: scale.height },
+        speedX: { min: 50, max: 200 },
+        speedY: { min: -20, max: 20 },
+        scale: { start: 0.5, end: 0 },
+        lifespan: 2000,
+        frequency: -1
+      }
+    );
+    scene.sliders.wind.addEventListener('input', () => {
+      const v = +scene.sliders.wind.value;
+      if (v) {
+        scene.windEmitter.start().setDepth(1000);
+        scene.windEmitter.setFrequency(200 - 2 * v);
+      } else {
+        scene.windEmitter.stop();
+      }
+    });
+  
+    // RAINSTORM effect → heavier raindrop particles
+    scene.rainEmitter = add.particles(
+      0, 0, 'raindrop',
+      {
+        x: { min: 0, max: scale.width },
+        y: 0,
+        speedY: { min: 400, max: 700 },    // faster fall
+        scale: { start: 0.3, end: 0.3 },   // slightly bigger drops
+        lifespan: 1500,                    // shorter lifespan
+        frequency: -1
+      }
+    );
+    scene.sliders.rain.addEventListener('input', () => {
+      const v = +scene.sliders.rain.value;
+      if (v) {
+        scene.rainEmitter.start().setDepth(1000);
+        // heavier rain: drop interval shrinks as slider increases
+        scene.rainEmitter.setFrequency(Math.max(20, 120 - v * 1.2));
+      } else {
+        scene.rainEmitter.stop();
+      }
+    });
+  }

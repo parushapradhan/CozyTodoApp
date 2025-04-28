@@ -1,46 +1,149 @@
 <%- include('../partials/header'); %>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: url("/assets/images/login-export.png") no-repeat center center;
+    background-size: cover;
+    font-family: var(--font-family);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+
+  .auth-container {
+    width: 90%;
+    max-width: 1000px;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #fff;
+    text-shadow: 2px 2px 0 #000;
+  }
+
+  .user-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .user-card {
+    background: rgba(255, 255, 255, 0.85);
+    border: 2px solid #000;
+    border-radius: 12px;
+    padding: 20px;
+    width: 250px;
+    box-shadow: 4px 4px 0px #000;
+  }
+
+  .user-card h3 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #333;
+  }
+
+  .user-card p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 14px;
+  }
+
+  .user-card form {
+    margin-top: 10px;
+  }
+
+  .user-card button {
+    background-color: #f8bfc9;
+    border: 2px solid #000;
+    border-radius: 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+
+  .user-card button:hover {
+    background-color: #f48e9a;
+  }
+
+  .user-card input[type="number"] {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+  }
+
+  ul {
+    padding-left: 20px;
+  }
+
+  li {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+</style>
 
 <div class="auth-container">
-  <h2>👑 Admin Panel</h2>
+  <h2>ADMIN PANEL</h2>
 
-  <% users.forEach(user => { %>
-  <div class="user-card">
-    <h3><%= user.username %> (Level <%= user.music_settings.level %>)</h3>
-    <p><strong>Email:</strong> <%= user.email %></p>
-    <p><strong>XP:</strong> <%= user.music_settings.exp %></p>
+  <div class="user-cards-container">
+    <% users.forEach(user => { %>
+    <div class="user-card">
+      <h3>
+        <%= user.username %> (Level <%= user.music_settings.level || user.level
+        %>)
+      </h3>
+      <p><strong>Email:</strong> <%= user.email %></p>
+      <p>
+        <strong>XP:</strong> <%= user.music_settings.exp || user.exp || 0 %>
+      </p>
 
-    <!-- Delete User Form -->
-    <form action="/admin/delete-user" method="POST" style="display: inline">
-      <input type="hidden" name="email" value="<%= user.email %>" />
-      <button type="submit">🗑️ Delete User</button>
-    </form>
+      <form action="/admin/delete-user" method="POST" style="display: inline">
+        <input type="hidden" name="email" value="<%= user.email %>" />
+        <button type="submit">Delete User</button>
+      </form>
 
-    <!-- Update Level Form -->
-    <form action="/admin/update-level" method="POST" style="margin-top: 10px">
-      <input type="hidden" name="email" value="<%= user.email %>" />
-      <input type="number" name="level" placeholder="New Level" required />
-      <button type="submit">🔼 Update Level</button>
-    </form>
+      <form action="/admin/update-level" method="POST">
+        <input type="hidden" name="email" value="<%= user.email %>" />
+        <input type="number" name="level" placeholder="New Level" required />
+        <button type="submit"> Update Level</button>
+      </form>
 
-    <!-- Tasks List -->
-    <p><strong>Tasks:</strong></p>
-    <ul>
-      <% if (user.music_settings.tasks && user.music_settings.tasks.length > 0)
-      { %> <% user.music_settings.tasks.forEach(task => { %>
-      <li>
-        <%= task.task_name %>
-        <form action="/admin/remove-task" method="POST" style="display: inline">
-          <input type="hidden" name="email" value="<%= user.email %>" />
-          <input type="hidden" name="task" value="<%= task.task_name %>" />
-          <button type="submit">❌</button>
-        </form>
-      </li>
-      <% }) %> <% } else { %>
-      <li>No tasks</li>
-      <% } %>
-    </ul>
-
-    <hr />
+      <p><strong>Tasks:</strong></p>
+      <ul>
+        <% if (user.music_settings && user.music_settings.tasks &&
+        user.music_settings.tasks.length > 0) { %> <%
+        user.music_settings.tasks.forEach(task => { %>
+        <li>
+          <%= task.task_name || task %>
+          <form
+            action="/admin/remove-task"
+            method="POST"
+            style="display: inline"
+          >
+            <input type="hidden" name="email" value="<%= user.email %>" />
+            <input
+              type="hidden"
+              name="task"
+              value="<%= task.task_name || task %>"
+            />
+            <button type="submit">❌</button>
+          </form>
+        </li>
+        <% }) %> <% } else { %>
+        <li>No tasks</li>
+        <% } %>
+      </ul>
+    </div>
+    <% }) %>
   </div>
-  <% }) %>
 </div>

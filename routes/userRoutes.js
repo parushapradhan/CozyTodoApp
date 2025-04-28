@@ -10,9 +10,12 @@ router.get("/", userController.index);
 router.get("/login", userController.loginForm);
 router.get("/verify-email", userController.verifyUser);
 router.get("/forgotPassword", userController.forgotPasswordForm);
-router.post("/signup", userController.signupUser);
+router.post("/logout", userController.logoutUser); // ✅ Now it will work
 router.post("/login", userController.loginUser);
 router.post("/forgotPassword", userController.forgotPasswordSubmit);
 router.post("/updateUserSettings", userController.updateSettings);
+
 router.get("/admin", userController.adminPanel);
+router.post("/resetPassword", userController.resetPasswordSubmit);
+
 module.exports = router;

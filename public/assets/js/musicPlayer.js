@@ -93,3 +93,89 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+
+var birds = new Howl({ src: ["/assets/music/birds.mp3"], loop: true, volume: 0 });
+var cicadas = new Howl({ src: ["/assets/music/cicadas.mp3"], loop: true, volume: 0 });
+var fire = new Howl({ src: ["/assets/music/fire.mp3"], loop: true,volume: 0 });
+var rain = new Howl({ src: ["/assets/music/rain.mp3"], loop: true,volume: 0 });
+var wind = new Howl({ src: ["/assets/music/wind.mp3"], loop: true,volume: 0 });
+
+// Play each sound and store the players
+let birdsSoundPlayer = birds.play();
+let cicadasSoundPlayer = cicadas.play();
+let fireSoundPlayer = fire.play();
+let rainSoundPlayer = rain.play();
+let windSoundPlayer = wind.play();
+
+// Link sliders to their corresponding sound objects
+const birdsSlider = document.getElementById("birds");
+const cicadasSlider = document.getElementById("cicadas");
+const windSlider = document.getElementById("wind");
+const rainSlider = document.getElementById("rain");
+const fireSlider = document.getElementById("fire");
+
+birdsSlider.addEventListener("input", updateValue);
+cicadasSlider.addEventListener("input", updateValue);
+windSlider.addEventListener("input", updateValue);
+rainSlider.addEventListener("input", updateValue);
+fireSlider.addEventListener("input", updateValue);
+
+function updateValue(e) {
+  const soundPlayer = getSoundPlayer(e.target.id);
+  soundPlayer.volume(e.target.value / 100);
+}
+
+function getSoundPlayer(id) {
+  if (id === "birds") return birds;
+  if (id === "cicadas") return cicadas;
+  if (id === "wind") return wind;
+  if (id === "rain") return rain;
+  if (id === "fire") return fire;
+}
+
+
+    // Toggle functionality for Menu 1
+document.getElementById('notebook').addEventListener('click', function() {
+  var menu1 = document.getElementById('menu-1');
+  menu1.style.display = (menu1.style.display === 'none' || menu1.style.display === '') ? 'flex' : 'none';
+});
+
+document.addEventListener('keydown', function(event) {
+  if (event.key.toLowerCase() === 'escape') {
+    var menu1 = document.getElementById('menu-1');
+    menu1.style.display = (menu1.style.display === 'none' || menu1.style.display === '') ? 'flex' : 'none';
+  }
+});
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const sliderMap = {
+    wind:    'wind',
+    rain:    'rain',
+    cicadas: 'cicadas',
+    birds:   'birds',
+    fire:    'fire'
+  };
+  const settings = USER.sound_settings || {};
+  Object.entries(sliderMap).forEach(([key, sliderId]) => {
+    const slider = document.getElementById(sliderId);
+    const saved = parseInt(settings[key], 10);
+    if (!isNaN(saved)) {
+      slider.value = saved;
+      slider.dispatchEvent(new Event('input'));
+    }
+    slider.addEventListener('input', e => {
+      const v = +e.target.value;
+      USER.sound_settings[key] = v;
+      fetch('/updateUserSettings', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ [`sound_settings.${key}`]: v })
+      });
+    });
+  });
+});
+

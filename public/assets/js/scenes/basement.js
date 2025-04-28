@@ -128,7 +128,7 @@ export class Basement extends Phaser.Scene {
                 const candle4 = this.physics.add.sprite(170, 175, 'animated_candle4');
                 candle4.anims.play('animated_candle4')
                 playAnimalAnimation(this);
-              this.player = new Player(this, 100, 150); // x, y coordinates
+              this.player = new Player(this, 164, 65); // x, y coordinates
   
           // Optional: add collisions or interactions
         //   this.physics.add.collider(this.player, this.obstacles);
@@ -140,7 +140,7 @@ export class Basement extends Phaser.Scene {
                 this.scene.start('Basement'); // replace with your target room key
                 }
             if (this.player.x >= 160 && this.player.y <= 10) {
-            this.scene.start('Bedroom'); // replace with your target room key
+            this.scene.start('Kitchen'); // replace with your target room key
             }
         }
   }
