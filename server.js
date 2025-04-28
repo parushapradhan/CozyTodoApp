@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const User = require("./models/User");
 const userRoutes = require("./routes/userRoutes");
+const taskRoutes = require('./routes/taskRoutes');
 const adminRoutes = require("./routes/adminRoutes");
 require("dotenv").config();
 
@@ -23,6 +24,7 @@ app.use(
   })
 );
 app.use("/", userRoutes);
+app.use('/', taskRoutes);
 // Connect to MongoDB (even though we're not using it yet)
 app.use("/", adminRoutes); // or use a prefix like '/admin' if you want
 mongoose

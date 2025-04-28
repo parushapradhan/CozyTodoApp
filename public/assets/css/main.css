@@ -292,6 +292,7 @@ body {
 
 .pixel-button {
   /* Optional: for pixel-style font */
+  font: inherit;
   font-size: 14px;
   background: #f5f0ea;
   border: 3px solid #9b8c7d;
@@ -310,4 +311,53 @@ body {
 .pixel-button:hover {
   transform: translateY(1px);
   box-shadow: 0 2px #b0a090;
+}
+
+/* Display Util */
+.display-none {
+  display: none;
+}
+.display-block {
+  display: block;
+}
+.display-flex {
+  display: flex;
+}
+.display-inline-block {
+  display: inline-block;
+}
+.display-inline {
+  display: inline;
+}
+.display-grid {
+  display: grid;
+}
+
+/* Font utils */
+.font-12 {
+  font-size: 12px;
+}
+.font-14 {
+  font-size: 14px;
+}
+.font-16 {
+  font-size: 16px;
+}
+.font-18 {
+  font-size: 18px;
+}
+.font-20 {
+  font-size: 20px;
+}
+.font-24 {
+  font-size: 24px;
+}
+.font-28 {
+  font-size: 28px;
+}
+.font-32 {
+  font-size: 32px;
+}
+.font-36 {
+  font-size: 36px;
 }

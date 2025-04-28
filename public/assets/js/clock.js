@@ -26,3 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
     updateClock();
   };
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const levelElem = document.getElementById("level");
+  const expElem   = document.getElementById("exp");
+  const { level , exp  } = USER; 
+  if (levelElem) levelElem.textContent = `Total Level: ${level}`;
+  if (expElem)   expElem.textContent   =`Exp Points: ${exp}`;
+});
