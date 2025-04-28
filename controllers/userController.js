@@ -206,3 +206,98 @@ exports.updateSettings = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+exports.resetDetailsForm = (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+
+  const flash = req.session.flash;
+  delete req.session.flash;
+
+  res.render("pages/resetDetails", { flash });
+};
+
+exports.resetDetailsSubmit = async (req, res) => {
+  const { username, email, newPassword } = req.body;
+
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+
+  try {
+    const currentUser = await User.findById(req.session.user._id);
+    if (!currentUser) {
+      req.session.flash = { type: "error", message: "User not found." };
+      return res.redirect("/resetDetails");
+    }
+
+    const updateFields = {};
+
+    // Check if username is changed and unique
+    if (username && username !== currentUser.username) {
+      const existingUser = await User.findOne({ username });
+      if (existingUser) {
+        req.session.flash = {
+          type: "error",
+          message: "Username already taken.",
+        };
+        return res.redirect("/resetDetails");
+      }
+      updateFields.username = username;
+    } else if (username && username === currentUser.username) {
+      req.session.flash = {
+        type: "error",
+        message: "New username must be different from old username.",
+      };
+      return res.redirect("/resetDetails");
+    }
+
+    // Check if new password is different
+    if (newPassword) {
+      const isSamePassword = await bcrypt.compare(
+        newPassword,
+        currentUser.password
+      );
+      if (isSamePassword) {
+        req.session.flash = {
+          type: "error",
+          message: "New password must be different from old password.",
+        };
+        return res.redirect("/resetDetails");
+      }
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      updateFields.password = hashedPassword;
+    }
+
+    if (email && email.trim() !== "") {
+      // Validate email format only if user entered something
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        req.session.flash = {
+          type: "error",
+          message: "Please enter a valid email address!",
+        };
+        return res.redirect("/resetDetails");
+      }
+      updateFields.email = email;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.session.user._id,
+      { $set: updateFields },
+      { new: true }
+    );
+
+    req.session.user = updatedUser;
+    req.session.flash = {
+      type: "success",
+      message: "✅ Details updated successfully!",
+    };
+    res.redirect("/resetDetails");
+  } catch (err) {
+    console.error("Reset details error:", err);
+    req.session.flash = { type: "error", message: "Something went wrong!" };
+    res.redirect("/resetDetails");
+  }
+};

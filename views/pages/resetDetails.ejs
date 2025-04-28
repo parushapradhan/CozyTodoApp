@@ -1,0 +1,70 @@
+<%- include('../partials/header'); %>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('/assets/images/login-export.png') no-repeat center center;
+    background-size: cover;
+  }
+
+  .auth-container {
+    text-align: center;
+  }
+
+  #reset-details-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  input {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 12px auto;
+    padding: 14px 12px;
+    font-size: 16px;
+    background-color: #fdf6e3;
+    border: 2px solid #333;
+    border-radius: 4px;
+    box-shadow: inset 0 0 0 2px #fff;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  input:focus {
+    border-color: #007acc;
+    background-color: #ffffff;
+  }
+
+  .pixel-button {
+    margin-top: 10px;
+  }
+</style>
+
+<body>
+    <script>
+  <% if (typeof flash !== "undefined" && flash) { %>
+    alert("<%= flash.message.replace(/"/g, '\\"') %>");
+  <% } %>
+</script>
+  <div class="auth-container">
+    <p class="border-text" style="font-size: 56px;">Reset Your Details</p>
+    <form id="reset-details-form" method="POST" action="/resetDetails">
+      <input name="username" placeholder="New Username" />
+      <input name="email" placeholder="New Email" />
+      <input name="newPassword" type="password" placeholder="New Password" />
+      <button type="submit" class="pixel-button">Submit</button>
+    </form>
+  </div>
+
+</body>
+
+</html>

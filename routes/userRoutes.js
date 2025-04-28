@@ -14,5 +14,7 @@ router.post("/logout", userController.logoutUser); // ✅ Now it will work
 router.post("/login", userController.loginUser);
 router.post("/forgotPassword", userController.forgotPasswordSubmit);
 router.post("/updateUserSettings", userController.updateSettings);
+router.get("/resetDetails", userController.resetDetailsForm);
+router.post("/resetDetails", userController.resetDetailsSubmit);
 
 module.exports = router;
