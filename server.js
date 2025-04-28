@@ -1,11 +1,10 @@
 const express = require("express");
 const session = require("express-session");
 const mongoose = require("mongoose");
-const fs = require("fs");
 const path = require("path");
-const usersPath = path.join(__dirname, "data", "users.json");
 const User = require("./models/User");
 const userRoutes = require("./routes/userRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 require("dotenv").config();
 
 const app = express();
@@ -25,7 +24,7 @@ app.use(
 );
 app.use("/", userRoutes);
 // Connect to MongoDB (even though we're not using it yet)
-
+app.use("/", adminRoutes); // or use a prefix like '/admin' if you want
 mongoose
   .connect(`${process.env.DB_URI}`, {
     useNewUrlParser: true,

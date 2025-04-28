@@ -1,7 +1,4 @@
-const fs = require("fs");
-const path = require("path");
 const User = require("../models/User");
-const usersPath = path.join(__dirname, "../data/users.json");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
@@ -18,24 +15,33 @@ exports.forgotPasswordForm = (req, res) => res.render("pages/forgotPassword");
 
 // POST /signup
 exports.signupUser = async (req, res) => {
-  const { username, email, password } = req.body; // ← Add email here
+  const { username, email, password, adminCode } = req.body; // 👈 now reading adminCode too
   console.log("📥 Received signup form:", req.body);
 
   try {
     const existing = await User.findOne({ username });
-    console.log(await User.findOne({ username }));
     if (existing)
       return res.render("pages/login", {
         errorMessage: "User already Exists!",
       });
+
     const token = crypto.randomBytes(32).toString("hex");
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // 👇 Check adminCode against secret
+    let role = "user";
+
+    if (adminCode && adminCode === process.env.ADMIN_CODE) {
+      role = "admin";
+    }
+
     const newUser = new User({
       username,
       password: hashedPassword,
       email,
-      isVerified: false, // NEW
-      verificationToken: token, // NEW
+      verified: false,
+      verificationToken: token,
+      role, // 👈 role will be "user" or "admin"
       sound_settings: {
         cicadas: 50,
         fire: 10,
@@ -58,8 +64,8 @@ exports.signupUser = async (req, res) => {
     });
 
     await newUser.save();
-    const verificationLink = `http://localhost:8080/verify-email?token=${token}`;
 
+    const verificationLink = `http://localhost:8080/verify-email?token=${token}`;
     const transporter = nodemailer.createTransport({
       host: process.env.MAILTRAP_HOST,
       port: parseInt(process.env.MAILTRAP_PORT),
@@ -68,19 +74,13 @@ exports.signupUser = async (req, res) => {
         pass: process.env.MAILTRAP_PASS,
       },
     });
-    await transporter
-      .sendMail({
-        from: "no-reply@cozy.com",
-        to: email,
-        subject: "Verify your account",
-        html: `<p>Click <a href="${verificationLink}">here</a> to verify your email.</p>`,
-      })
-      .then((info) => {
-        console.log("✅ Email sent:", info);
-      })
-      .catch((err) => {
-        console.error("❌ Email failed:", err);
-      });
+
+    await transporter.sendMail({
+      from: "no-reply@cozy.com",
+      to: email,
+      subject: "Verify your account",
+      html: `<p>Click <a href="${verificationLink}">here</a> to verify your email.</p>`,
+    });
 
     return res.render("pages/login", {
       errorMessage: "Verification Link sent, check Inbox!",
@@ -142,7 +142,13 @@ exports.loginUser = async (req, res) => {
     }
 
     req.session.user = user;
-    res.redirect("/");
+
+    // ✅ After successful login: Redirect based on role
+    if (user.role === "admin") {
+      res.redirect("/admin");
+    } else {
+      res.redirect("/");
+    }
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).send("Something went wrong");
@@ -211,38 +217,74 @@ exports.logoutUser = (req, res) => {
 };
 
 // ADMIN
-exports.adminPanel = (req, res) => {
-  const users = JSON.parse(fs.readFileSync(usersPath));
-  res.render("pages/admin", { users });
+exports.adminPanel = async (req, res) => {
+  try {
+    if (req.session.user?.role !== "admin")
+      return res.status(403).send("Access denied");
+
+    const users = await User.find();
+    res.render("pages/admin", { users });
+  } catch (err) {
+    console.error("Error loading admin panel:", err);
+    res.status(500).send("Server error");
+  }
 };
 
-exports.deleteUser = (req, res) => {
-  const users = JSON.parse(fs.readFileSync(usersPath));
-  const updated = users.filter((u) => u.email !== req.body.email);
-  fs.writeFileSync(usersPath, JSON.stringify(updated, null, 2));
-  res.redirect("/admin");
+exports.deleteUser = async (req, res) => {
+  try {
+    if (req.session.user?.role !== "admin")
+      return res.status(403).send("Access denied");
+
+    await User.deleteOne({ email: req.body.email });
+    res.redirect("/admin");
+  } catch (err) {
+    console.error("Delete error:", err);
+    res.status(500).send("Could not delete user");
+  }
 };
 
-exports.removeTask = (req, res) => {
+exports.removeTask = async (req, res) => {
   const { email, task } = req.body;
-  const users = JSON.parse(fs.readFileSync(usersPath));
-  const user = users.find((u) => u.email === email);
-  if (user) {
-    user.tasks = user.tasks.filter((t) => t !== task);
-    fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
-  }
-  res.redirect("/admin");
-};
 
-exports.updateLevel = (req, res) => {
-  const { email, level } = req.body;
-  const users = JSON.parse(fs.readFileSync(usersPath));
-  const user = users.find((u) => u.email === email);
-  if (user) {
-    user.level = parseInt(level);
-    fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
+  try {
+    if (req.session.user?.role !== "admin")
+      return res.status(403).send("Access denied");
+
+    await User.updateOne(
+      { email },
+      { $pull: { "music_settings.tasks": { task_name: task } } }
+    );
+    res.redirect("/admin");
+  } catch (err) {
+    console.error("Remove task error:", err);
+    res.status(500).send("Failed to remove task");
   }
-  res.redirect("/admin");
+};
+exports.updateLevel = async (req, res) => {
+  const { email, level } = req.body;
+
+  try {
+    if (req.session.user?.role !== "admin")
+      return res.status(403).send("Access denied");
+
+    console.log("Trying to update level for:", email, "to level:", level);
+
+    const result = await User.updateOne(
+      { email },
+      { $set: { level: parseInt(level, 10) } }
+    );
+
+    console.log("MongoDB Update Result:", result);
+
+    if (result.modifiedCount === 0) {
+      console.warn("⚠️ No user updated — maybe wrong email?");
+    }
+
+    res.redirect("/admin");
+  } catch (err) {
+    console.error("Update level error:", err);
+    res.status(500).send("Failed to update level");
+  }
 };
 
 exports.updateSettings = async (req, res) => {

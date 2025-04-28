@@ -1,5 +1,4 @@
 <%- include('../partials/header'); %>
-
 <style>
   body {
     margin: 0;
@@ -110,13 +109,13 @@
 
       <form action="/admin/delete-user" method="POST" style="display: inline">
         <input type="hidden" name="email" value="<%= user.email %>" />
-        <button type="submit">🗑️ Delete User</button>
+        <button type="submit">Delete User</button>
       </form>
 
       <form action="/admin/update-level" method="POST">
         <input type="hidden" name="email" value="<%= user.email %>" />
         <input type="number" name="level" placeholder="New Level" required />
-        <button type="submit">🔼 Update Level</button>
+        <button type="submit"> Update Level</button>
       </form>
 
       <p><strong>Tasks:</strong></p>
