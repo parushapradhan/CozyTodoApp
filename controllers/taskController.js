@@ -1,7 +1,7 @@
 const Task = require('../models/Task');
 const User = require('../models/User');
-const { checkExpLevel } = require('../utils/expUtils');
-
+const { addExp } = require('../utils/expUtils');
+const { updateExpLevel } = require('../utils/expUtils');
 exports.createTask = async (req, res) => {
   try {
     const { description } = req.body;
@@ -43,10 +43,11 @@ exports.updateTask = async (req, res) => {
       const user = await User.findById(task.userId);
 
       if (user) {
-        user.music_settings.exp += 10;
-        checkExpLevel(user);
+        user=user.addExp(user,10);
+        console.log(user);
         await user.save();
         req.session.user = user;
+        updateExpLevel();
       }
     }
 

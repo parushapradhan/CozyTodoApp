@@ -58,6 +58,7 @@
   border-radius: 4px;
   padding: 0.5rem;
   cursor: pointer;
+  color: black;
 }
 .todo-item input[type="checkbox"] {
   margin-right: 0.5rem;

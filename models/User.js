@@ -22,6 +22,7 @@ const UserSchema = new mongoose.Schema({
       track2: String,
       track3: String,
     },
+    volume:Number
   },
   level: Number,
   exp: Number,

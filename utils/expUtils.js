@@ -1,17 +1,39 @@
 exports.checkExpLevel = (user) => {
-  const exp = user.music_settings.exp;
-  let level = user.music_settings.level;
+  const exp = user.exp;
+  let level = user.level;
 
   if (exp >= 200 && level === 1) {
-    user.music_settings.level = 2;
+    user.level = 2;
   }
   if (exp >= 400 && level === 2) {
-    user.music_settings.level = 3;
+    user.level = 3;
   }
   if (exp >= 600 && level === 3) {
-    user.music_settings.level = 4;
+    user.level = 4;
   }
   if (exp >= 800 && level === 4) {
-    user.music_settings.level = 5;
+    user.level = 5;
   }
+  return user;
 };
+
+/**
+ * Add EXP to the user and re-run level check.
+ * @param {Object} user  — the user object
+ * @param {number} pts   — points to add
+ */
+exports.addExp = (user, pts) => {
+
+  // add points
+  user.exp += pts;
+
+  exports.checkExpLevel(user);
+};
+
+export function updateLevelExp() {
+  const levelElem = document.getElementById("level");
+  const expElem   = document.getElementById("exp");
+  const { level , exp  } = USER; 
+  if (levelElem) levelElem.textContent = `Total Level: ${level}`;
+  if (expElem)   expElem.textContent   =`Exp Points: ${exp}`;
+}
